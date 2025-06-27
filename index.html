@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站快速閱覽器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .url-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .url-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            min-width: 300px;
+        }
+
+        .url-input input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            padding: 8px 16px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .iframe-container {
+            position: relative;
+            height: calc(100vh - 200px);
+            min-height: 600px;
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #667eea;
+        }
+
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 40px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            color: #721c24;
+            max-width: 80%;
+        }
+
+        .error-message h3 {
+            margin-bottom: 15px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .toolbar-info {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .toolbar-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .url-input {
+                flex-direction: column;
+            }
+            
+            .url-input input {
+                min-width: auto;
+            }
+            
+            .quick-links {
+                justify-content: center;
+            }
+            
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .toolbar-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 網站快速閱覽器</h1>
+            <p>透過 iframe 嵌入其他網站進行快速預覽</p>
+        </div>
+
+        <div class="controls">
+            <div class="url-input">
+                <input type="url" id="urlInput" placeholder="輸入網站 URL，例如：https://example.com" value="https://tsno.org.tw">
+                <button class="btn" onclick="loadWebsite()">載入網站</button>
+                <button class="btn btn-secondary" onclick="openInNewTab()">新視窗開啟</button>
+            </div>
+
+            <div class="quick-links">
+                <button class="quick-link" onclick="loadQuickSite('https://tsno.org.tw')">台灣神經腫瘤學會</button>
+                <button class="quick-link" onclick="loadQuickSite('https://www.google.com')">Google</button>
+                <button class="quick-link" onclick="loadQuickSite('https://github.com')">GitHub</button>
+                <button class="quick-link" onclick="loadQuickSite('https://stackoverflow.com')">Stack Overflow</button>
+                <button class="quick-link" onclick="loadQuickSite('https://www.wikipedia.org')">Wikipedia</button>
+            </div>
+        </div>
+
+        <div class="iframe-container">
+            <div class="loading" id="loadingMsg">
+                <div style="font-size: 24px; margin-bottom: 10px;">⏳</div>
+                <div>載入中...</div>
+            </div>
+            
+            <iframe id="websiteFrame" class="iframe-wrapper" style="display: none;" 
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                    onload="onFrameLoad()" 
+                    onerror="onFrameError()">
+            </iframe>
+        </div>
+
+        <div class="toolbar">
+            <div class="toolbar-info">
+                <span id="currentUrl">尚未載入網站</span>
+            </div>
+            <div class="toolbar-buttons">
+                <button class="btn btn-small" onclick="refreshFrame()">🔄 重新載入</button>
+                <button class="btn btn-small btn-secondary" onclick="goBack()">← 上一頁</button>
+                <button class="btn btn-small btn-secondary" onclick="goForward()">下一頁 →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUrl = '';
+        let frameHistory = [];
+        let historyIndex = -1;
+
+        function loadWebsite() {
+            const urlInput = document.getElementById('urlInput');
+            let url = urlInput.value.trim();
+            
+            if (!url) {
+                alert('請輸入有效的網址');
+                return;
+            }
+            
+            // 自動添加 https:// 如果沒有協議
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+                urlInput.value = url;
+            }
+            
+            loadFrame(url);
+        }
+
+        function loadQuickSite(url) {
+            document.getElementById('urlInput').value = url;
+            loadFrame(url);
+        }
+
+        function loadFrame(url) {
+            const frame = document.getElementById('websiteFrame');
+            const loading = document.getElementById('loadingMsg');
+            const currentUrlSpan = document.getElementById('currentUrl');
+            
+            // 清除之前的錯誤訊息
+            clearErrorMessage();
+            
+            // 顯示載入中
+            loading.style.display = 'block';
+            frame.style.display = 'none';
+            
+            // 更新歷史記錄
+            if (url !== currentUrl) {
+                frameHistory = frameHistory.slice(0, historyIndex + 1);
+                frameHistory.push(url);
+                historyIndex = frameHistory.length - 1;
+            }
+            
+            currentUrl = url;
+            currentUrlSpan.textContent = url;
+            
+            // 設定 iframe 來源
+            frame.src = url;
+            
+            // 設定超時檢查
+            setTimeout(() => {
+                if (loading.style.display !== 'none') {
+                    onFrameError();
+                }
+            }, 10000); // 10秒超時
+        }
+
+        function onFrameLoad() {
+            const frame = document.getElementById('websiteFrame');
+            const loading = document.getElementById('loadingMsg');
+            
+            loading.style.display = 'none';
+            frame.style.display = 'block';
+            
+            // 嘗試檢測是否真的載入成功
+            try {
+                // 這個檢查可能會因為跨域限制而失敗，但我們可以嘗試
+                if (frame.contentWindow) {
+                    console.log('Frame loaded successfully');
+                }
+            } catch (e) {
+                console.log('Cross-origin frame loaded');
+            }
+        }
+
+        function onFrameError() {
+            const loading = document.getElementById('loadingMsg');
+            const frame = document.getElementById('websiteFrame');
+            
+            loading.style.display = 'none';
+            frame.style.display = 'none';
+            
+            showErrorMessage();
+        }
+
+        function showErrorMessage() {
+            const container = document.querySelector('.iframe-container');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.id = 'errorMessage';
+            errorDiv.innerHTML = `
+                <h3>⚠️ 無法載入網站</h3>
+                <p><strong>可能的原因：</strong></p>
+                <ul style="text-align: left; margin: 10px 0;">
+                    <li>網站禁止被嵌入到 iframe 中（X-Frame-Options 政策）</li>
+                    <li>網站要求 HTTPS 安全連線</li>
+                    <li>網站暫時無法存取</li>
+                    <li>網址格式不正確</li>
+                </ul>
+                <p><strong>建議解決方案：</strong></p>
+                <ul style="text-align: left; margin: 10px 0;">
+                    <li>點擊「新視窗開啟」按鈕直接開啟網站</li>
+                    <li>檢查網址是否正確</li>
+                    <li>嘗試其他網站</li>
+                </ul>
+                <button class="btn" onclick="openInNewTab()" style="margin-top: 15px;">
+                    🔗 在新視窗中開啟
+                </button>
+            `;
+            container.appendChild(errorDiv);
+        }
+
+        function clearErrorMessage() {
+            const errorMsg = document.getElementById('errorMessage');
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+        }
+
+        function openInNewTab() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        function refreshFrame() {
+            if (currentUrl) {
+                loadFrame(currentUrl);
+            }
+        }
+
+        function goBack() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                const url = frameHistory[historyIndex];
+                document.getElementById('urlInput').value = url;
+                loadFrame(url);
+            }
+        }
+
+        function goForward() {
+            if (historyIndex < frameHistory.length - 1) {
+                historyIndex++;
+                const url = frameHistory[historyIndex];
+                document.getElementById('urlInput').value = url;
+                loadFrame(url);
+            }
+        }
+
+        // 監聽 Enter 鍵
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadWebsite();
+            }
+        });
+
+        // 頁面載入時自動嘗試載入台灣神經腫瘤學會網站
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                loadWebsite();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
