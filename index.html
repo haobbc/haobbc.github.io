@@ -3,439 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 健康檢查</title>
+    <title>傅冠豪醫師 (Kuan-Hao Fu, MD) 個人首頁</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --text-color: #ecf0f1;
+            --highlight-color: #3498db;
+            --background-color: #ecf0f1;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         body {
-            font-family: 'Courier New', monospace;
-            background: #1a1a1a;
-            color: #00ff00;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Helvetica Neue', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: #333;
         }
 
         .container {
-            background: #000;
-            border: 2px solid #00ff00;
-            border-radius: 10px;
-            padding: 30px;
-            max-width: 600px;
-            width: 100%;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        h1 {
+        .header {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 40px 20px;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
-            text-shadow: 0 0 10px #00ff00;
+            border-bottom: 5px solid var(--highlight-color);
         }
 
-        .input-group {
+        .header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 300;
+        }
+
+        .header h2 {
+            margin: 10px 0 0;
+            font-size: 1.4em;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-top: 0;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--highlight-color);
         }
 
-        label {
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--highlight-color);
+            font-size: 1.2em;
+            line-height: 1;
+        }
+        
+        .timeline li {
+            border-left: 2px solid #bdc3c7;
+            padding-left: 30px;
+            padding-bottom: 20px;
+        }
+        
+        .timeline li:last-child {
+            border-left: none;
+            padding-bottom: 0;
+        }
+
+        .timeline li::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--highlight-color);
+            border: 3px solid var(--background-color);
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+        }
+
+        .item-meta {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.95em;
+        }
+        
+        .publication {
+            margin-bottom: 20px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .publication::before {
+            content: '📖';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .publication-authors {
+            font-weight: bold;
+        }
+        
+        .publication-title {
+            font-style: italic;
+            color: var(--secondary-color);
             display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin: 5px 0;
+        }
+        
+        .publication-journal {
+            font-size: 0.95em;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            background: #1a1a1a;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
+        .contact-info {
+            list-style: none;
+            padding: 0;
         }
 
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        .contact-info li {
+            padding-left: 35px;
+            position: relative;
         }
 
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        .contact-info li::before {
+            content: '';
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 5px;
+            font-size: 1.2em;
+            color: var(--highlight-color);
         }
 
-        button {
-            flex: 1;
-            padding: 12px;
-            background: #003300;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            min-width: 120px;
-        }
+        .contact-info li.phone::before { content: '📞'; }
+        .contact-info li.email::before { content: '📧'; }
+        .contact-info li.address::before { content: '🏠'; }
 
-        button:hover {
-            background: #004400;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .status {
+        footer {
             text-align: center;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 16px;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9em;
         }
 
-        .status.loading {
-            background: rgba(255, 255, 0, 0.1);
-            border: 1px solid #ffff00;
-            color: #ffff00;
-        }
-
-        .status.success {
-            background: rgba(0, 255, 0, 0.1);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-        }
-
-        .status.error {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff0000;
-            color: #ff0000;
-        }
-
-        .response {
-            background: #111;
-            border: 1px solid #444;
-            border-radius: 5px;
-            padding: 15px;
-            min-height: 200px;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-
-        .timestamp {
-            color: #888;
-            font-size: 12px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .quick-btn {
-            padding: 8px 12px;
-            background: #001a00;
-            border: 1px solid #006600;
-            color: #00cc00;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .quick-btn:hover {
-            background: #002200;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat-item {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 5px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #888;
-        }
-
-        @media (max-width: 600px) {
-            .button-group {
-                flex-direction: column;
-            }
-            
-            button {
-                min-width: auto;
-            }
-            
-            .quick-actions {
-                justify-content: center;
-            }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.2em; }
+            .header h2 { font-size: 1.2em; }
+            .card h3 { font-size: 1.5em; }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>🩺 API 健康檢查工具</h1>
-        
-        <div class="input-group">
-            <label for="apiUrl">API 端點：</label>
-            <input type="url" id="apiUrl" value="https://mydomain.com/api/health" placeholder="輸入 API URL">
-        </div>
+        <header class="header">
+            <h1>傅冠豪 (Kuan-Hao Fu, MD)</h1>
+            <h2>神經外科醫師 | 臨床研究員</h2>
+        </header>
 
-        <div class="quick-actions">
-            <button class="quick-btn" onclick="setUrl('https://mydomain.com/api/health')">預設端點</button>
-            <button class="quick-btn" onclick="setUrl('https://httpbin.org/status/200')">測試成功</button>
-            <button class="quick-btn" onclick="setUrl('https://httpbin.org/status/500')">測試錯誤</button>
-            <button class="quick-btn" onclick="setUrl('https://httpbin.org/delay/3')">測試延遲</button>
-        </div>
+        <main class="main-content">
+            <div class="card">
+                <h3>聯絡資訊</h3>
+                <ul class="contact-info">
+                    <li class="email"><strong>Email:</strong> <a href="mailto:haobbc@cgmh.org.tw">haobbc@cgmh.org.tw</a></li>
+                    
+                </ul>
+            </div>
 
-        <div class="button-group">
-            <button onclick="testApi()">🧪 測試 API</button>
-            <button onclick="testContinuous()">🔄 持續測試</button>
-            <button onclick="stopContinuous()">⏹️ 停止測試</button>
-            <button onclick="clearResponse()">🧹 清除</button>
-        </div>
+            <div class="card">
+                <h3>現職</h3>
+                <ul>
+                    <li><span class="item-title">基隆長庚紀念醫院 神經外科 主治醫師</span></li>
+                    <li><span class="item-title">國立台灣大學 精準健康學院 博士候選人</span> <span class="item-meta">(2024/09~)</span></li>
+                </ul>
+            </div>
 
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="totalTests">0</div>
-                <div class="stat-label">總測試次數</div>
+            <div class="card">
+                <h3>經歷</h3>
+                <ul class="timeline">
+                    <li>
+                        <div class="item-title">林口長庚紀念醫院 神經外科 總醫師</div>
+                    </li>
+                    <li>
+                        <div class="item-title">林口長庚紀念醫院 神經外科 住院醫師</div>
+                    </li>
+                </ul>
             </div>
-            <div class="stat-item">
-                <div class="stat-value" id="successCount">0</div>
-                <div class="stat-label">成功次數</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="errorCount">0</div>
-                <div class="stat-label">失敗次數</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="avgResponseTime">0</div>
-                <div class="stat-label">平均響應時間(ms)</div>
-            </div>
-        </div>
 
-        <div id="status" class="status" style="display: none;"></div>
-        
-        <div class="timestamp" id="timestamp"></div>
-        
-        <div id="response" class="response">等待 API 測試...</div>
+            <div class="card">
+                <h3>學歷</h3>
+                <ul class="timeline">
+                     <li>
+                        <div class="item-title">長庚大學 醫學系</div>
+                        <div class="item-meta">2007/09 ~ 2012/06</div>
+                    </li>
+                    <li>
+                        <div class="item-title">國立臺南第一高級中學</div>
+                        <div class="item-meta">2005/09 ~ 2007/06</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>學會與認證</h3>
+                <ul>
+                    <li>台灣神經外科醫學會 專科醫師 (會員編號: 769)</li>
+                    <li>台灣外科醫學會 專科醫師</li>
+                    <li>術中神經監測 資格認證</li>
+                    <li>迷走神經刺激術(VNS) 認證</li>
+                    <li>深腦刺激術(DBS) 認證</li>
+                    <li>OSCE考官 認證</li>
+                    <li>醫策會一般醫學教育(PGY)導師 資格</li>
+                    <li>全人醫療教師 資格</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>論文及期刊發表</h3>
+                <div class="publication">
+                    <div class="publication-authors">Fu, K. H., Wang, Y. C., Lim, S. N., et al.</div>
+                    <div class="publication-title">Long-term Outcome of Seizure Control and Neurologic Performance After Limited Hippocampal Radiofrequency Thermocoagulation for Mesial Temporal Lobe Epilepsy.</div>
+                    <div class="publication-journal">World Neurosurgery, 173, e18–e26. (2023). <a href="https://doi.org/10.1016/j.wneu.2023.01.061" target="_blank">DOI: 10.1016/j.wneu.2023.01.061</a></div>
+                </div>
+                <div class="publication">
+                    <div class="publication-authors">Fu, K. H., Chen P. Y., & Yan, J. L.</div>
+                    <div class="publication-title">A complication of recurrent artery of Heubner infarction after resection of an anterior cerebral artery giant thrombotic aneurysm: A case report.</div>
+                    <div class="publication-journal">Journal of Surgical Case Reports. 2024 Nov 24;2024(11):rjae736 <a href="https://doi.org/10.1093/jscr/rjae736" target="_blank">DOI: 10.1093/jscr/rjae736</a></div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 傅冠豪 (Kuan-Hao Fu). All Rights Reserved.</p>
+        </footer>
     </div>
 
-    <script>
-        let testCount = 0;
-        let successCount = 0;
-        let errorCount = 0;
-        let totalResponseTime = 0;
-        let continuousInterval = null;
-
-        function setUrl(url) {
-            document.getElementById('apiUrl').value = url;
-        }
-
-        function updateTimestamp() {
-            const now = new Date();
-            document.getElementById('timestamp').textContent = 
-                `最後更新: ${now.toLocaleString('zh-TW')}`;
-        }
-
-        function updateStats() {
-            document.getElementById('totalTests').textContent = testCount;
-            document.getElementById('successCount').textContent = successCount;
-            document.getElementById('errorCount').textContent = errorCount;
-            
-            const avgTime = testCount > 0 ? Math.round(totalResponseTime / testCount) : 0;
-            document.getElementById('avgResponseTime').textContent = avgTime;
-        }
-
-        function showStatus(message, type) {
-            const statusEl = document.getElementById('status');
-            statusEl.textContent = message;
-            statusEl.className = `status ${type}`;
-            statusEl.style.display = 'block';
-        }
-
-        function hideStatus() {
-            document.getElementById('status').style.display = 'none';
-        }
-
-        function logResponse(message) {
-            const responseEl = document.getElementById('response');
-            const timestamp = new Date().toLocaleTimeString('zh-TW');
-            responseEl.textContent += `[${timestamp}] ${message}\n`;
-            responseEl.scrollTop = responseEl.scrollHeight;
-        }
-
-        async function testApi() {
-            const url = document.getElementById('apiUrl').value.trim();
-            
-            if (!url) {
-                showStatus('請輸入 API URL', 'error');
-                return;
-            }
-
-            const startTime = Date.now();
-            testCount++;
-            
-            showStatus('正在測試...', 'loading');
-            logResponse(`開始測試: ${url}`);
-
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                const endTime = Date.now();
-                const responseTime = endTime - startTime;
-                totalResponseTime += responseTime;
-
-                let responseData = '';
-                const contentType = response.headers.get('content-type');
-                
-                if (contentType && contentType.includes('application/json')) {
-                    try {
-                        const jsonData = await response.json();
-                        responseData = JSON.stringify(jsonData, null, 2);
-                    } catch {
-                        responseData = await response.text();
-                    }
-                } else {
-                    responseData = await response.text();
-                }
-
-                if (response.ok) {
-                    successCount++;
-                    showStatus(`✅ API 正常 (${response.status}) - ${responseTime}ms`, 'success');
-                    logResponse(`✅ 成功 [${response.status}] (${responseTime}ms)`);
-                    logResponse(`響應內容: ${responseData.substring(0, 200)}${responseData.length > 200 ? '...' : ''}`);
-                } else {
-                    errorCount++;
-                    showStatus(`❌ API 錯誤 (${response.status}) - ${responseTime}ms`, 'error');
-                    logResponse(`❌ 錯誤 [${response.status}] (${responseTime}ms)`);
-                    logResponse(`錯誤內容: ${responseData.substring(0, 200)}${responseData.length > 200 ? '...' : ''}`);
-                }
-
-                logResponse(`詳細信息:`);
-                logResponse(`- 狀態碼: ${response.status} ${response.statusText}`);
-                logResponse(`- 內容類型: ${contentType || '未知'}`);
-                logResponse(`- 響應時間: ${responseTime}ms`);
-                logResponse(`- URL: ${response.url}`);
-                logResponse('---');
-
-            } catch (error) {
-                const endTime = Date.now();
-                const responseTime = endTime - startTime;
-                totalResponseTime += responseTime;
-                
-                errorCount++;
-                showStatus(`🚫 連接失敗: ${error.message}`, 'error');
-                logResponse(`🚫 網路錯誤 (${responseTime}ms): ${error.message}`);
-                
-                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                    logResponse(`可能原因: CORS 問題、網路錯誤或服務器不可達`);
-                }
-                logResponse('---');
-            }
-
-            updateStats();
-            updateTimestamp();
-        }
-
-        function testContinuous() {
-            if (continuousInterval) {
-                stopContinuous();
-                return;
-            }
-
-            logResponse('🔄 開始持續測試 (每5秒一次)...');
-            continuousInterval = setInterval(testApi, 5000);
-            
-            const btn = document.querySelector('button[onclick="testContinuous()"]');
-            btn.textContent = '⏸️ 暫停持續測試';
-        }
-
-        function stopContinuous() {
-            if (continuousInterval) {
-                clearInterval(continuousInterval);
-                continuousInterval = null;
-                logResponse('⏹️ 持續測試已停止');
-                
-                const btn = document.querySelector('button[onclick="testContinuous()"]');
-                btn.textContent = '🔄 持續測試';
-            }
-        }
-
-        function clearResponse() {
-            document.getElementById('response').textContent = '等待 API 測試...';
-            hideStatus();
-            
-            // 重置統計
-            testCount = 0;
-            successCount = 0;
-            errorCount = 0;
-            totalResponseTime = 0;
-            updateStats();
-            
-            logResponse('🧹 已清除所有記錄');
-        }
-
-        // 頁面載入時的初始化
-        window.addEventListener('load', function() {
-            updateTimestamp();
-            logResponse('🚀 API 健康檢查工具已就緒');
-            logResponse('提示: 可以使用快速按鈕測試不同的端點');
-            logResponse('---');
-        });
-
-        // 按 Enter 鍵執行測試
-        document.getElementById('apiUrl').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                testApi();
-            }
-        });
-
-        // 頁面關閉時清理定時器
-        window.addEventListener('beforeunload', function() {
-            if (continuousInterval) {
-                clearInterval(continuousInterval);
-            }
-        });
-    </script>
 </body>
 </html>
