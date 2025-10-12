@@ -47,9 +47,10 @@ function MDRenderer() {
         cslFile ? readFileContent(cslFile) : Promise.resolve(null)
       ]);
 
-      // 處理引文
+      // 處理引文（傳入 markdown 內容以提取被引用的 keys）
       const citationData = await processCitations(
         bibtexContent,
+        markdownContent,
         customCslContent || cslStyle,
         locale
       );
