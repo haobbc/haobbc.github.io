@@ -1,8 +1,8 @@
-import './App.css'
+import '../App.css'
 
-function App() {
+function Home() {
   return (
-    <div className="container">
+    <>
       <header className="header">
         <h1>傅冠豪 (Kuan-Hao Fu, MD)</h1>
         <h2>神經外科醫師 | 臨床研究員</h2>
@@ -105,8 +105,8 @@ function App() {
       <footer>
         <p>&copy; 2025 傅冠豪 (Kuan-Hao Fu). All Rights Reserved.</p>
       </footer>
-    </div>
+    </>
   )
 }
 
-export default App
+export default Home

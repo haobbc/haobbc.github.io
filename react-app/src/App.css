@@ -17,6 +17,16 @@ body {
   color: #333;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+}
+
 .container {
   max-width: 1000px;
   margin: 0 auto;
