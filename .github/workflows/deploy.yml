@@ -1,22 +1,14 @@
 name: Deploy to GitHub Pages
 
-# 當前配置: 部署 React 版本
-# 要切換到其他框架 (例如 Vue, Angular):
-# 1. 修改下方的 paths 和 cache-dependency-path
-# 2. 修改 working-directory 和 path
-#
-# 範例 (Vue):
-#   paths: - 'vue-app/**'
-#   cache-dependency-path: './vue-app/package-lock.json'
-#   working-directory: ./vue-app
-#   path: './vue-app/dist'
+# 當前配置: 部署 Next.js 版本
+# 從 nextjs-app 目錄構建和部署
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'react-app/**'
+      - 'nextjs-app/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -41,15 +33,18 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: './react-app/package-lock.json'
+          cache-dependency-path: './nextjs-app/package-lock.json'
 
       - name: Install dependencies
-        working-directory: ./react-app
+        working-directory: ./nextjs-app
         run: npm ci
 
-      - name: Build
-        working-directory: ./react-app
+      - name: Build Next.js
+        working-directory: ./nextjs-app
         run: npm run build
+
+      - name: Add .nojekyll file
+        run: touch ./nextjs-app/out/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -57,7 +52,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './react-app/dist'
+          path: './nextjs-app/out'
 
   deploy:
     environment:
