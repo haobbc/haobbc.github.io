@@ -4,9 +4,12 @@ import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
+import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 
@@ -72,6 +75,8 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
 
     // 配置更寬鬆的 sanitize schema，保留所有標準 Markdown 元素
     // 注意：rehype-slug 添加的 id 屬性必須被允許
+    // rehype-highlight 添加的 class 屬性必須被允許
+    // rehype-katex 添加的數學標籤和屬性必須被允許
     const customSchema = {
       ...defaultSchema,
       attributes: {
@@ -83,16 +88,76 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
           'id',
           'style'
         ],
+        // 允許代碼區塊的 language-* class
+        code: [
+          ...(defaultSchema.attributes?.code || []),
+          'className',
+          'class'
+        ],
+        pre: [
+          ...(defaultSchema.attributes?.pre || []),
+          'className',
+          'class'
+        ],
+        span: [
+          ...(defaultSchema.attributes?.span || []),
+          'className',
+          'class',
+          'style',
+          'aria-hidden' // KaTeX 需要
+        ],
+        // KaTeX 數學公式需要的屬性
+        annotation: ['encoding'],
+        math: ['xmlns'],
+        mi: ['mathvariant'],
+        mo: ['stretchy', 'minsize', 'maxsize'],
+        mrow: [],
+        semantics: [],
       },
+      tagNames: [
+        ...(defaultSchema.tagNames || []),
+        'span', // highlight.js 會使用 span 標籤
+        // KaTeX 數學公式需要的標籤
+        'math',
+        'annotation',
+        'semantics',
+        'mtext',
+        'mn',
+        'mo',
+        'mi',
+        'mspace',
+        'mover',
+        'munder',
+        'munderover',
+        'msup',
+        'msub',
+        'msubsup',
+        'mfrac',
+        'mroot',
+        'msqrt',
+        'mtable',
+        'mtr',
+        'mtd',
+        'mlabeledtr',
+        'mrow',
+        'menclose',
+        'mstyle',
+        'mpadded',
+        'mphantom',
+        'mglyph',
+      ],
     };
 
     // 將 Markdown 轉換為 HTML
     const processedContent = await unified()
       .use(remarkParse)
       .use(remarkGfm) // 支援 GitHub Flavored Markdown
+      .use(remarkMath) // 支援數學公式
       .use(remarkRehype, { allowDangerousHtml: false })
+      .use(rehypeKatex) // 渲染數學公式（在 sanitize 之前）
       .use(rehypeSlug) // 為標題添加 id
-      .use(rehypeSanitize, customSchema) // 使用與 md-renderer 相同的 schema
+      .use(rehypeHighlight, { ignoreMissing: true }) // 語法高亮（在 sanitize 之前）
+      .use(rehypeSanitize, customSchema) // 使用自訂 schema
       .use(rehypeStringify)
       .process(content);
 
