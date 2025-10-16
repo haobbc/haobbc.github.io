@@ -156,7 +156,7 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
       .use(remarkRehype, { allowDangerousHtml: false })
       .use(rehypeKatex) // 渲染數學公式（在 sanitize 之前）
       .use(rehypeSlug) // 為標題添加 id
-      .use(rehypeHighlight, { ignoreMissing: true }) // 語法高亮（在 sanitize 之前）
+      .use(rehypeHighlight) // 語法高亮（在 sanitize 之前）
       .use(rehypeSanitize, customSchema) // 使用自訂 schema
       .use(rehypeStringify)
       .process(content);
