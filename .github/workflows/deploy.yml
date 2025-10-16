@@ -39,9 +39,11 @@ jobs:
         working-directory: ./nextjs-app
         run: npm ci
 
-      - name: Build Next.js
+      - name: Build Next.js for GitHub Pages (Static Export)
         working-directory: ./nextjs-app
-        run: npm run build
+        run: npm run build:github
+        env:
+          NEXT_PUBLIC_DEPLOY_TARGET: github
 
       - name: Add .nojekyll file
         run: touch ./nextjs-app/out/.nojekyll

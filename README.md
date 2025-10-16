@@ -1,93 +1,136 @@
 # 傅冠豪醫師 (Kuan-Hao Fu, MD) 個人首頁
 
-這個 GitHub 倉庫包含我的個人首頁網站。
+這個 GitHub 倉庫包含我的個人首頁網站，採用多框架並行開發架構。
 
-## 當前版本
+## 當前部署狀態
 
-**React 版本** - 使用 React 18 + Vite 建構
+### Next.js App（主要版本）
 
-訪問: https://haobbc.github.io/
+**雙平台部署**：
+- **GitHub Pages**: https://haobbc.github.io/ (靜態導出)
+- **Vercel**: [你的 Vercel URL] (SSR)
+
+### React App
+
+**開發中**：React 19 + Vite
 
 ## 專案結構
 
 ```
 .
-├── react-app/              # React 版本 (當前部署)
+├── nextjs-app/             # Next.js 15 應用（主要版本）
+├── react-app/              # React 19 + Vite 應用
 ├── .github/workflows/      # GitHub Actions 自動部署配置
-└── index.html.old-backup   # 舊版 HTML 備份
+└── CLAUDE.md               # AI 開發助手指南
 ```
 
 ## 開發
 
-### 本地開發
+### Next.js App（主要開發）
+
+```bash
+cd nextjs-app
+npm install
+npm run dev
+# 訪問 http://localhost:3000
+```
+
+### React App
 
 ```bash
 cd react-app
 npm install
 npm run dev
-```
-
-### 構建
-
-```bash
-cd react-app
-npm run build
+# 訪問 http://localhost:5173
 ```
 
 ## 部署
 
-當前配置為自動部署 React 版本到 GitHub Pages。
+### Next.js App - 雙平台自動部署
 
-推送到 `main` 分支的 `react-app/` 目錄後，GitHub Actions 會自動構建並部署。
-
-## 切換框架
-
-如果未來想嘗試其他框架（例如 Vue, Angular），可以：
-
-1. 創建新的框架目錄（例如 `vue-app/`、`angular-app/`）
-2. 修改 `.github/workflows/deploy.yml` 中的配置：
-   - 修改 `paths` 監聽的目錄
-   - 修改 `cache-dependency-path` 路徑
-   - 修改 `working-directory` 和構建產物路徑
-
-範例（切換到 Vue）：
-```yaml
-paths:
-  - 'vue-app/**'
-cache-dependency-path: './vue-app/package-lock.json'
-working-directory: ./vue-app
-path: './vue-app/dist'
-```
-
-## 其他部署平台
-
-### Vercel
+**一次推送，雙平台同步更新**：
 
 ```bash
-cd react-app
-vercel
+# 在 nextjs-app/ 目錄修改代碼後
+git add .
+git commit -m "更新說明"
+git push origin main
+
+# 自動觸發：
+# ✓ GitHub Actions → GitHub Pages (靜態)
+# ✓ Vercel → Vercel Platform (SSR)
 ```
 
-### Netlify
+#### GitHub Pages 部署
 
+**配置**：
+- 工作流文件：`.github/workflows/deploy.yml`
+- 構建命令：`npm run build:github`
+- 觸發條件：推送到 `main` 分支且修改 `nextjs-app/` 目錄
+
+**驗證**：
+- 查看 GitHub Actions 工作流狀態
+- 訪問 https://haobbc.github.io/
+
+#### Vercel 部署
+
+**配置**：
+- 連接方式：已連接 GitHub repo（自動部署）
+- 構建命令：`npm run build:vercel`
+- Root Directory：`nextjs-app`
+- 環境變量：`NEXT_PUBLIC_DEPLOY_TARGET=vercel`
+
+**驗證**：
+- 查看 Vercel Dashboard
+- 訪問 Vercel 生產 URL
+
+**手動部署**（可選）：
+```bash
+cd nextjs-app
+vercel --prod
+```
+
+#### 部署配置差異
+
+| 配置項 | GitHub Pages | Vercel |
+|--------|--------------|--------|
+| 構建命令 | `npm run build:github` | `npm run build:vercel` |
+| 輸出模式 | 靜態導出 (`output: 'export'`) | SSR（默認） |
+| 圖片優化 | 關閉 | 啟用 |
+| 環境變量 | `NEXT_PUBLIC_DEPLOY_TARGET=github` | `NEXT_PUBLIC_DEPLOY_TARGET=vercel` |
+
+### React App 部署
+
+當前 React App 處於開發階段，尚未部署。
+
+**構建**：
 ```bash
 cd react-app
 npm run build
-netlify deploy --prod --dir=dist
 ```
 
-### Cloudflare Pages
-
-在 Cloudflare Pages 控制台設定：
-- Build command: `cd react-app && npm install && npm run build`
-- Build output directory: `react-app/dist`
+**部署選項**：
+- GitHub Pages
+- Vercel
+- Netlify
+- Cloudflare Pages
 
 ## 技術棧
 
-- React 18
-- Vite
-- CSS (原生樣式)
-- GitHub Actions (CI/CD)
+### Next.js App
+- Next.js 15
+- React 19
+- TypeScript 5
+- Tailwind CSS 4
+- Shadcn UI
+- Citation.js (引用處理)
+
+### React App
+- React 19
+- Vite 7
+- TypeScript 5
+- React Router 7
+- Citation.js (引用處理)
 
 ## 授權
 

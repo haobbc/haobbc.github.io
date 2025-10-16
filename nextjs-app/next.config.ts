@@ -1,12 +1,21 @@
 import type { NextConfig } from "next";
 
+const isGitHubPages = process.env.NEXT_PUBLIC_DEPLOY_TARGET === 'github';
+
 const nextConfig: NextConfig = {
-  output: 'export',
+  // GitHub Pages 使用靜態導出，Vercel 使用 SSR
+  ...(isGitHubPages && { output: 'export' }),
+
   basePath: '',
+
   images: {
-    unoptimized: true,
+    // GitHub Pages 需要 unoptimized，Vercel 可以使用優化
+    unoptimized: isGitHubPages,
   },
-  trailingSlash: true,
+
+  // GitHub Pages 需要 trailing slash
+  trailingSlash: isGitHubPages,
+
   eslint: {
     ignoreDuringBuilds: true,
   },

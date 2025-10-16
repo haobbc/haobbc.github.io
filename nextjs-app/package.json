@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:github": "NEXT_PUBLIC_DEPLOY_TARGET=github next build --turbopack",
+    "build:vercel": "NEXT_PUBLIC_DEPLOY_TARGET=vercel next build --turbopack",
     "start": "next start",
     "lint": "eslint"
   },
