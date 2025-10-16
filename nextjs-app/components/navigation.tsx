@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Home, FileText } from "lucide-react"
+import { Home, FileText, BookOpen } from "lucide-react"
 
 export function Navigation() {
   const pathname = usePathname()
@@ -39,7 +39,19 @@ export function Navigation() {
             )}
           >
             <Home className="w-4 h-4" />
-            <span>首頁</span>
+            <span className="hidden sm:inline">首頁</span>
+          </Link>
+          <Link
+            href="/notes"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+              pathname?.startsWith("/notes")
+                ? "bg-white text-blue-800 shadow-md scale-105"
+                : "text-white hover:bg-blue-700 hover:shadow-md"
+            )}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span className="hidden sm:inline">筆記</span>
           </Link>
           <Link
             href="/md-renderer"
@@ -51,7 +63,7 @@ export function Navigation() {
             )}
           >
             <FileText className="w-4 h-4" />
-            <span>論文渲染器</span>
+            <span className="hidden sm:inline">論文渲染器</span>
           </Link>
         </div>
       </div>

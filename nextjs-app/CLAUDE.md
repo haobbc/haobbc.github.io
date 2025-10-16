@@ -164,7 +164,177 @@ vercel --prod
 
 ## 主要功能
 
-### Markdown 渲染
+### 筆記系統（Notes）
+
+本專案包含完整的筆記管理和渲染系統，位於 `app/notes/` 目錄。
+
+#### 架構說明
+
+**檔案結構**：
+```
+nextjs-app/
+├── app/notes/
+│   ├── page.tsx              # 筆記列表頁
+│   └── [slug]/page.tsx       # 動態筆記內容頁
+├── components/
+│   ├── note-content.tsx      # 筆記內容渲染組件
+│   └── notes-sidebar.tsx     # 筆記側邊欄
+├── lib/
+│   └── notes.ts              # 筆記處理邏輯
+└── content/notes/            # Markdown 筆記檔案
+```
+
+#### Markdown 處理流程
+
+**1. 使用的套件**：
+```typescript
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
+import rehypeSlug from 'rehype-slug';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeStringify from 'rehype-stringify';
+```
+
+**2. 處理管線（lib/notes.ts:90-96）**：
+```typescript
+const processedContent = await unified()
+  .use(remarkParse)           // 解析 Markdown
+  .use(remarkGfm)            // 支援 GitHub Flavored Markdown
+  .use(remarkRehype)         // 轉換為 HTML AST
+  .use(rehypeSlug)           // 為標題添加 id 屬性
+  .use(rehypeSanitize, customSchema)  // 清理 HTML
+  .use(rehypeStringify)      // 轉換為 HTML 字串
+  .process(content);
+```
+
+**3. 重要配置 - rehype-sanitize Schema（lib/notes.ts:75-87）**：
+
+為了讓樣式正確渲染，必須配置 `rehype-sanitize` 允許特定屬性：
+
+```typescript
+const customSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    '*': [
+      ...(defaultSchema.attributes && defaultSchema.attributes['*'] ? defaultSchema.attributes['*'] : []),
+      'className',  // 允許 class 屬性
+      'class',      // 允許 class 屬性
+      'id',         // 允許 id 屬性（rehype-slug 需要）
+      'style'       // 允許 style 屬性
+    ],
+  },
+};
+```
+
+**為什麼需要這個配置？**
+- `rehype-slug` 會為標題添加 `id` 屬性（如 `<h1 id="title">`）
+- 如果 `rehype-sanitize` 的 schema 不允許 `id` 屬性，這些屬性會被移除
+- 沒有 `id` 屬性會導致某些樣式無法正確應用
+
+#### CSS 樣式架構
+
+**關鍵解決方案 - 雙層 div 結構（components/note-content.tsx:68-70）**：
+
+```typescript
+<div className="preview-content">
+  <div className="markdown-content" dangerouslySetInnerHTML={{ __html: note.content }} />
+</div>
+```
+
+**為什麼需要這個結構？**
+
+全域 CSS（`app/globals.css`）中的樣式選擇器是巢狀的：
+
+```css
+.preview-content .markdown-content h1 {
+  font-size: 20pt;
+  font-weight: bold;
+  text-align: center;
+  /* ... */
+}
+
+.preview-content .markdown-content h2 {
+  font-size: 16pt;
+  font-weight: bold;
+  /* ... */
+}
+
+.preview-content .markdown-content h3 {
+  font-size: 14pt;
+  font-weight: bold;
+  /* ... */
+}
+```
+
+**重要觀念**：
+- CSS 選擇器是 `.preview-content .markdown-content h1`，需要**兩個父層 class** 才能生效
+- 如果只用 `<div className="markdown-content">`，樣式**不會**被應用
+- 這個結構與專案中的 `md-renderer` 頁面完全一致，確保樣式統一
+
+#### 常見問題排除
+
+##### 問題 1：標題分級沒有正確渲染
+
+**症狀**：所有標題看起來都一樣，沒有大小和樣式區別
+
+**原因**：
+1. CSS 選擇器需要雙層 div 結構（`.preview-content .markdown-content`）
+2. `rehype-sanitize` 移除了必要的屬性（`id`、`class` 等）
+
+**解決方案**：
+1. 確保 HTML 結構使用雙層 div（參考上方範例）
+2. 配置 `rehype-sanitize` 的 schema 允許必要屬性
+3. 確認 `app/globals.css` 包含 `.preview-content .markdown-content` 的樣式規則
+
+##### 問題 2：與 Tailwind CSS 的整合
+
+**注意**：本專案使用 **Tailwind CSS 4** 搭配 **Shadcn UI**
+
+- ❌ **不要**使用 `@tailwindcss/typography` (prose)
+  - Tailwind 4 預設不包含 prose plugin
+  - Shadcn UI 有自己的樣式系統
+
+- ✓ **應該**使用自訂 CSS（`app/globals.css`）
+  - 完全控制 Markdown 渲染樣式
+  - 與專案其他部分保持一致
+  - 支援更複雜的巢狀選擇器
+
+#### 渲染模式
+
+筆記頁面支援兩種渲染模式：
+
+**1. 靜態生成（SSG）- GitHub Pages**：
+```typescript
+// app/notes/[slug]/page.tsx
+export async function generateStaticParams() {
+  const slugs = getAllNoteSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
+```
+
+**2. 伺服器端渲染（SSR）- Vercel**：
+- 同樣的 `generateStaticParams()` 函數在 SSR 模式會被 Next.js 忽略
+- 頁面會在請求時動態渲染
+- 不需要額外配置
+
+#### 日期處理
+
+筆記元數據中的日期格式需要注意：
+
+```typescript
+// components/note-content.tsx:20-23
+const getISODate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toISOString().split('T')[0]  // YYYY-MM-DD
+}
+```
+
+**重要**：HTML `<time>` 元素的 `dateTime` 屬性必須使用 ISO 8601 格式（YYYY-MM-DD），否則會有 console 警告。
+
+### Markdown 渲染（通用）
 - 使用 Remark 和 Rehype 處理 Markdown
 - 支援 HTML 清理（rehype-sanitize）
 - 客製化 Markdown 組件

@@ -76,9 +76,9 @@ git push origin main
 
 **配置**：
 - 連接方式：已連接 GitHub repo（自動部署）
-- 構建命令：`npm run build:vercel`
+- 構建命令：`npm run build`（默認 SSR 模式）
 - Root Directory：`nextjs-app`
-- 環境變量：`NEXT_PUBLIC_DEPLOY_TARGET=vercel`
+- 環境變量：自動使用 `.env.production` 的 `NEXT_PUBLIC_DEPLOY_TARGET=vercel`
 
 **驗證**：
 - 查看 Vercel Dashboard
@@ -94,7 +94,7 @@ vercel --prod
 
 | 配置項 | GitHub Pages | Vercel |
 |--------|--------------|--------|
-| 構建命令 | `npm run build:github` | `npm run build:vercel` |
+| 構建命令 | `npm run build:github` | `npm run build` |
 | 輸出模式 | 靜態導出 (`output: 'export'`) | SSR（默認） |
 | 圖片優化 | 關閉 | 啟用 |
 | 環境變量 | `NEXT_PUBLIC_DEPLOY_TARGET=github` | `NEXT_PUBLIC_DEPLOY_TARGET=vercel` |
