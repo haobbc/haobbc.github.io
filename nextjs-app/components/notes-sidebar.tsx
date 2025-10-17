@@ -32,8 +32,25 @@ export function NotesSidebar({ notes, categories }: NotesSidebarProps) {
     return acc
   }, {} as Record<string, NoteListItem[]>)
 
-  const formatDate = (dateString: string) => {
+  // 在每個分類內按 subPath 分組
+  const groupNotesBySubPath = (notes: NoteListItem[]) => {
+    const grouped: Record<string, NoteListItem[]> = {}
+    notes.forEach(note => {
+      const key = note.metadata.subPath || '_root' // 沒有子路徑的放在 _root
+      if (!grouped[key]) {
+        grouped[key] = []
+      }
+      grouped[key].push(note)
+    })
+    return grouped
+  }
+
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return '未知日期'
+
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return '未知日期'
+
     return date.toLocaleDateString('zh-TW', {
       year: 'numeric',
       month: '2-digit',
@@ -116,63 +133,78 @@ export function NotesSidebar({ notes, categories }: NotesSidebarProps) {
 
           {/* 筆記列表 */}
           <div className="space-y-4">
-            {Object.entries(notesByCategory).map(([category, categoryNotes]) => (
-              <div key={category} className="space-y-2">
-                <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 sticky top-0 bg-white py-2">
-                  <Folder className="w-4 h-4 text-blue-600" />
-                  <span>{category}</span>
-                  <span className="text-xs text-gray-500">({categoryNotes.length})</span>
-                </div>
-                <div className="space-y-1">
-                  {categoryNotes.map((note) => {
-                    const notePath = `/notes/${note.slug}`
-                    const isActive = pathname === notePath
+            {Object.entries(notesByCategory).map(([category, categoryNotes]) => {
+              const notesBySubPath = groupNotesBySubPath(categoryNotes)
 
-                    return (
-                      <Link
-                        key={note.slug}
-                        href={notePath}
-                        onClick={() => setIsMobileOpen(false)}
-                        className={cn(
-                          "block p-3 rounded-lg transition-all duration-200 group",
-                          isActive
-                            ? "bg-blue-50 border-l-4 border-blue-600"
-                            : "hover:bg-gray-50 border-l-4 border-transparent"
+              return (
+                <div key={category} className="space-y-2">
+                  {/* 分類標題 */}
+                  <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 sticky top-0 bg-white py-2">
+                    <Folder className="w-4 h-4 text-blue-600" />
+                    <span>{category}</span>
+                    <span className="text-xs text-gray-500">({categoryNotes.length})</span>
+                  </div>
+
+                  {/* 按子路徑分組顯示 */}
+                  <div className="space-y-3">
+                    {Object.entries(notesBySubPath).map(([subPath, subNotes]) => (
+                      <div key={subPath} className="space-y-1">
+                        {/* 子路徑標題（如果有） */}
+                        {subPath !== '_root' && (
+                          <div className="pl-3 text-xs font-medium text-gray-500 mb-1">
+                            📁 {subPath}
+                          </div>
                         )}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex-1 min-w-0">
-                            <h3
+
+                        {/* 筆記列表 */}
+                        {subNotes.map((note) => {
+                          const notePath = `/notes/${note.slug}`
+                          const isActive = pathname === notePath
+
+                          return (
+                            <Link
+                              key={note.slug}
+                              href={notePath}
+                              onClick={() => setIsMobileOpen(false)}
                               className={cn(
-                                "font-medium text-sm truncate mb-1",
-                                isActive ? "text-blue-600" : "text-gray-800 group-hover:text-blue-600"
+                                "block p-3 rounded-lg transition-all duration-200 group",
+                                subPath !== '_root' && "ml-4",
+                                isActive
+                                  ? "bg-blue-50 border-l-4 border-blue-600"
+                                  : "hover:bg-gray-50 border-l-4 border-transparent"
                               )}
                             >
-                              {note.metadata.title}
-                            </h3>
-                            {note.metadata.description && (
-                              <p className="text-xs text-gray-500 line-clamp-2 mb-1">
-                                {note.metadata.description}
-                              </p>
-                            )}
-                            <div className="flex items-center gap-1 text-xs text-gray-400">
-                              <Calendar className="w-3 h-3" />
-                              <span>{formatDate(note.metadata.date)}</span>
-                            </div>
-                          </div>
-                          <ChevronRight
-                            className={cn(
-                              "w-4 h-4 flex-shrink-0 transition-transform",
-                              isActive ? "text-blue-600 translate-x-1" : "text-gray-400"
-                            )}
-                          />
-                        </div>
-                      </Link>
-                    )
-                  })}
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <h3
+                                    className={cn(
+                                      "font-medium text-sm truncate mb-1",
+                                      isActive ? "text-blue-600" : "text-gray-800 group-hover:text-blue-600"
+                                    )}
+                                  >
+                                    {note.metadata.title}
+                                  </h3>
+                                  <div className="flex items-center gap-1 text-xs text-gray-400">
+                                    <Calendar className="w-3 h-3" />
+                                    <span>{formatDate(note.metadata.date)}</span>
+                                  </div>
+                                </div>
+                                <ChevronRight
+                                  className={cn(
+                                    "w-4 h-4 flex-shrink-0 transition-transform",
+                                    isActive ? "text-blue-600 translate-x-1" : "text-gray-400"
+                                  )}
+                                />
+                              </div>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* 空狀態 */}

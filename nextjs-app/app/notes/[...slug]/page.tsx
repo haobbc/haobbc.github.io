@@ -5,7 +5,7 @@ import type { Metadata } from "next"
 
 interface NotePageProps {
   params: Promise<{
-    slug: string
+    slug: string[]
   }>
 }
 
@@ -13,12 +13,15 @@ interface NotePageProps {
 // SSR 模式會被 Next.js 忽略（因為 output 不是 'export'）
 export async function generateStaticParams() {
   const slugs = getAllNoteSlugs()
-  return slugs.map((slug) => ({ slug }))
+  return slugs.map((slug) => ({
+    slug: slug.split('/')
+  }))
 }
 
 // 生成動態 metadata
 export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
-  const { slug } = await params
+  const { slug: slugArray } = await params
+  const slug = slugArray.join('/')
   const note = await getNoteBySlug(slug)
 
   if (!note) {
@@ -29,12 +32,12 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
 
   return {
     title: `${note.metadata.title} | 筆記 | 傅冠豪 (Kuan-Hao Fu, MD)`,
-    description: note.metadata.description,
   }
 }
 
 export default async function NotePage({ params }: NotePageProps) {
-  const { slug } = await params
+  const { slug: slugArray } = await params
+  const slug = slugArray.join('/')
   const note = await getNoteBySlug(slug)
 
   if (!note) {

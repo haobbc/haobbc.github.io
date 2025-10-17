@@ -5,7 +5,7 @@ export default function NotesPage() {
   const notes = getAllNotes()
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="px-8 py-12">
       {/* 歡迎區域 */}
       <div className="text-center mb-12">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
@@ -45,9 +45,9 @@ export default function NotesPage() {
             <FileText className="w-5 h-5 text-green-600" />
           </div>
           <p className="text-sm font-medium text-gray-900">
-            {notes.length > 0
+            {notes.length > 0 && notes[0].metadata.date
               ? new Date(notes[0].metadata.date).toLocaleDateString('zh-TW')
-              : 'N/A'}
+              : '未知日期'}
           </p>
         </div>
       </div>

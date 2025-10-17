@@ -17,7 +17,7 @@ export default function NotesLayout({
   return (
     <div className="flex min-h-screen bg-gray-50">
       <NotesSidebar notes={notes} categories={categories} />
-      <main className="flex-1 lg:ml-80">
+      <main className="flex-1">
         {children}
       </main>
     </div>

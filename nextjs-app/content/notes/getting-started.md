@@ -1,6 +1,6 @@
 ---
 title: Markdown 筆記語法指南
-date: 2025-01-16
+date: 2025-10-15
 category: 教學
 description: 完整的 Markdown 語法教學，包含代碼區塊、數學公式等進階功能
 ---

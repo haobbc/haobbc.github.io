@@ -8,7 +8,6 @@ import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
 import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
@@ -17,9 +16,9 @@ const notesDirectory = path.join(process.cwd(), 'content/notes');
 
 export interface NoteMetadata {
   title: string;
-  date: string;
-  category: string;
-  description: string;
+  date: string | null; // 允許空值
+  category: string; // 從第一層子資料夾推導
+  subPath: string; // 第二層及以後的路徑（用於在分類內部分組顯示）
 }
 
 export interface Note {
@@ -34,6 +33,93 @@ export interface NoteListItem {
 }
 
 /**
+ * 從 Markdown 內容中提取第一個 # 標題
+ */
+function extractFirstHeading(content: string): string | null {
+  const lines = content.split('\n');
+  for (const line of lines) {
+    const match = line.match(/^#\s+(.+)$/);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+  return null;
+}
+
+/**
+ * 驗證日期格式並返回有效日期或 null
+ */
+function parseDate(dateString: any): string | null {
+  if (!dateString) return null;
+
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return null; // 無效日期
+  }
+
+  return dateString.toString();
+}
+
+/**
+ * 從檔案路徑提取分類（只使用第一層子資料夾）
+ */
+function extractCategory(relativePath: string): string {
+  const dirs = path.dirname(relativePath).split(path.sep);
+  // 移除 '.' 和空字串
+  const validDirs = dirs.filter(d => d && d !== '.');
+
+  if (validDirs.length === 0) {
+    return '未分類';
+  }
+
+  // 只返回第一層子資料夾作為分類
+  return validDirs[0];
+}
+
+/**
+ * 從檔案路徑提取子路徑（第一層之後的路徑）
+ */
+function extractSubPath(relativePath: string): string {
+  const dirs = path.dirname(relativePath).split(path.sep);
+  const validDirs = dirs.filter(d => d && d !== '.');
+
+  if (validDirs.length <= 1) {
+    return '';
+  }
+
+  // 返回第二層及以後的路徑
+  return validDirs.slice(1).join('/');
+}
+
+/**
+ * 遞迴獲取所有 Markdown 文件
+ */
+function getAllMarkdownFiles(dir: string, baseDir: string = dir): string[] {
+  if (!fs.existsSync(dir)) {
+    return [];
+  }
+
+  const files: string[] = [];
+  const items = fs.readdirSync(dir);
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    const stat = fs.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      // 遞迴處理子資料夾
+      files.push(...getAllMarkdownFiles(fullPath, baseDir));
+    } else if (item.endsWith('.md')) {
+      // 計算相對於 notes 目錄的路徑
+      const relativePath = path.relative(baseDir, fullPath);
+      files.push(relativePath);
+    }
+  }
+
+  return files;
+}
+
+/**
  * 獲取所有筆記的列表（不包含內容）
  */
 export function getAllNotes(): NoteListItem[] {
@@ -42,22 +128,43 @@ export function getAllNotes(): NoteListItem[] {
     return [];
   }
 
-  const fileNames = fs.readdirSync(notesDirectory);
-  const notes = fileNames
-    .filter((fileName) => fileName.endsWith('.md'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.md$/, '');
-      const fullPath = path.join(notesDirectory, fileName);
+  const markdownFiles = getAllMarkdownFiles(notesDirectory);
+  const notes = markdownFiles
+    .map((relativePath) => {
+      // slug 使用完整相對路徑（移除 .md 後綴）
+      const slug = relativePath.replace(/\.md$/, '').replace(/\\/g, '/');
+      const fullPath = path.join(notesDirectory, relativePath);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data } = matter(fileContents);
+      const { data, content } = matter(fileContents);
+
+      // 提取 title：優先使用 YAML，其次使用第一個 # 標題，最後使用 "無題"
+      let title = data.title || extractFirstHeading(content) || '無題';
+
+      // 提取 date：驗證並允許空值
+      const date = parseDate(data.date);
+
+      // 提取 category：從第一層資料夾推導
+      const category = extractCategory(relativePath);
+
+      // 提取 subPath：第二層及以後的路徑
+      const subPath = extractSubPath(relativePath);
 
       return {
         slug,
-        metadata: data as NoteMetadata,
+        metadata: {
+          title,
+          date,
+          category,
+          subPath,
+        },
       };
     })
     .sort((a, b) => {
-      // 按日期降序排序（最新的在前）
+      // 按日期降序排序（最新的在前），null 日期排在最後
+      if (!a.metadata.date && !b.metadata.date) return 0;
+      if (!a.metadata.date) return 1;
+      if (!b.metadata.date) return -1;
+
       return new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime();
     });
 
@@ -69,14 +176,28 @@ export function getAllNotes(): NoteListItem[] {
  */
 export async function getNoteBySlug(slug: string): Promise<Note | null> {
   try {
+    // slug 可能包含路徑，例如 "study_notes/Git/git"
     const fullPath = path.join(notesDirectory, `${slug}.md`);
+
+    if (!fs.existsSync(fullPath)) {
+      return null;
+    }
+
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
+    // 提取 title
+    let title = data.title || extractFirstHeading(content) || '無題';
+
+    // 提取 date
+    const date = parseDate(data.date);
+
+    // 提取 category 和 subPath
+    const relativePath = path.relative(notesDirectory, fullPath);
+    const category = extractCategory(relativePath);
+    const subPath = extractSubPath(relativePath);
+
     // 配置更寬鬆的 sanitize schema，保留所有標準 Markdown 元素
-    // 注意：rehype-slug 添加的 id 屬性必須被允許
-    // rehype-highlight 添加的 class 屬性必須被允許
-    // rehype-katex 添加的數學標籤和屬性必須被允許
     const customSchema = {
       ...defaultSchema,
       attributes: {
@@ -88,7 +209,6 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
           'id',
           'style'
         ],
-        // 允許代碼區塊的 language-* class
         code: [
           ...(defaultSchema.attributes?.code || []),
           'className',
@@ -104,9 +224,8 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
           'className',
           'class',
           'style',
-          'aria-hidden' // KaTeX 需要
+          'aria-hidden'
         ],
-        // KaTeX 數學公式需要的屬性
         annotation: ['encoding'],
         math: ['xmlns'],
         mi: ['mathvariant'],
@@ -116,8 +235,7 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
       },
       tagNames: [
         ...(defaultSchema.tagNames || []),
-        'span', // highlight.js 會使用 span 標籤
-        // KaTeX 數學公式需要的標籤
+        'span',
         'math',
         'annotation',
         'semantics',
@@ -151,19 +269,24 @@ export async function getNoteBySlug(slug: string): Promise<Note | null> {
     // 將 Markdown 轉換為 HTML
     const processedContent = await unified()
       .use(remarkParse)
-      .use(remarkGfm) // 支援 GitHub Flavored Markdown
-      .use(remarkMath) // 支援數學公式
+      .use(remarkGfm)
+      .use(remarkMath)
       .use(remarkRehype, { allowDangerousHtml: false })
-      .use(rehypeKatex) // 渲染數學公式（在 sanitize 之前）
-      .use(rehypeSlug) // 為標題添加 id
-      .use(rehypeHighlight) // 語法高亮（在 sanitize 之前）
-      .use(rehypeSanitize, customSchema) // 使用自訂 schema
+      .use(rehypeKatex)
+      .use(rehypeSlug)
+      .use(rehypeHighlight)
+      .use(rehypeSanitize, customSchema)
       .use(rehypeStringify)
       .process(content);
 
     return {
       slug,
-      metadata: data as NoteMetadata,
+      metadata: {
+        title,
+        date,
+        category,
+        subPath,
+      },
       content: processedContent.toString(),
     };
   } catch (error) {
@@ -180,10 +303,8 @@ export function getAllNoteSlugs(): string[] {
     return [];
   }
 
-  const fileNames = fs.readdirSync(notesDirectory);
-  return fileNames
-    .filter((fileName) => fileName.endsWith('.md'))
-    .map((fileName) => fileName.replace(/\.md$/, ''));
+  const markdownFiles = getAllMarkdownFiles(notesDirectory);
+  return markdownFiles.map(file => file.replace(/\.md$/, '').replace(/\\/g, '/'));
 }
 
 /**

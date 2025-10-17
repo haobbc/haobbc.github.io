@@ -9,21 +9,29 @@ interface NoteContentProps {
 }
 
 export function NoteContent({ note }: NoteContentProps) {
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return '未知日期'
+
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return '未知日期'
+
     const year = date.getFullYear()
     const month = date.getMonth() + 1
     const day = date.getDate()
     return `${year}年${month}月${day}日`
   }
 
-  const getISODate = (dateString: string) => {
+  const getISODate = (dateString: string | null) => {
+    if (!dateString) return ''
+
     const date = new Date(dateString)
+    if (isNaN(date.getTime())) return ''
+
     return date.toISOString().split('T')[0]
   }
 
   return (
-    <article className="max-w-4xl mx-auto px-4 py-8">
+    <article className="px-8 py-8">
       {/* 返回按鈕 */}
       <Link
         href="/notes"
@@ -47,7 +55,7 @@ export function NoteContent({ note }: NoteContentProps) {
             </time>
           </div>
 
-          {note.metadata.category && (
+          {note.metadata.category && note.metadata.category !== '未分類' && (
             <div className="flex items-center gap-2">
               <FolderOpen className="w-4 h-4 text-blue-600" />
               <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
@@ -56,12 +64,6 @@ export function NoteContent({ note }: NoteContentProps) {
             </div>
           )}
         </div>
-
-        {note.metadata.description && (
-          <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-            {note.metadata.description}
-          </p>
-        )}
       </header>
 
       {/* 使用與 md-renderer 完全相同的結構 */}
