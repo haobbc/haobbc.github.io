@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Home, FileText, BookOpen } from "lucide-react"
+import { Home, FileText, BookOpen, Presentation } from "lucide-react"
 
 export function Navigation() {
   const pathname = usePathname()
@@ -52,6 +52,18 @@ export function Navigation() {
           >
             <BookOpen className="w-4 h-4" />
             <span className="hidden sm:inline">筆記</span>
+          </Link>
+          <Link
+            href="/slides"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+              pathname?.startsWith("/slides")
+                ? "bg-white text-blue-800 shadow-md scale-105"
+                : "text-white hover:bg-blue-700 hover:shadow-md"
+            )}
+          >
+            <Presentation className="w-4 h-4" />
+            <span className="hidden sm:inline">簡報清單</span>
           </Link>
           <Link
             href="/md-renderer"
