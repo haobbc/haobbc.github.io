@@ -22,7 +22,7 @@ export default function SlidesPage() {
             <div className="text-center py-8">
               <Presentation className="w-12 h-12 text-gray-300 mx-auto mb-3" />
               <p className="text-gray-600 text-sm">
-                在 <code className="bg-gray-100 px-2 py-1 rounded text-xs">public/slides/</code> 目錄中添加簡報資料夾
+                在 <code className="bg-gray-100 px-2 py-1 rounded text-xs">public/slide-content/</code> 目錄中添加簡報資料夾
               </p>
             </div>
           ) : (

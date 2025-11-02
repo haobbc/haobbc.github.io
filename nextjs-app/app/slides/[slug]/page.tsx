@@ -16,14 +16,15 @@ export async function generateStaticParams() {
 
 export default async function SlidePage({ params }: SlidePageProps) {
   const { slug } = await params
-  const slidePath = getSlideBySlug(slug)
+  const exists = getSlideBySlug(slug)
 
-  if (!slidePath) {
+  if (!exists) {
     notFound()
   }
 
   // 使用 iframe 顯示簡報
-  const slideUrl = `/slides/${slug}.html`
+  // 資料夾結構：public/slide-content/[slug]/index.html
+  const slideUrl = `/slide-content/${slug}/index.html`
 
   return (
     <div className="w-full h-screen bg-gray-100">

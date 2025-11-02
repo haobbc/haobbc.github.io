@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const slidesDirectory = path.join(process.cwd(), 'public/slides');
+const slidesDirectory = path.join(process.cwd(), 'public/slide-content');
 
 export interface SlideMetadata {
   title: string;
@@ -11,7 +11,6 @@ export interface SlideMetadata {
 
 export interface Slide {
   slug: string;
-  filename: string;
   metadata: SlideMetadata;
 }
 
@@ -36,6 +35,7 @@ function extractTitleFromHTML(htmlContent: string): string | null {
 
 /**
  * 獲取所有簡報的列表
+ * 掃描 public/slides/ 下的所有資料夾，尋找 index.html
  */
 export function getAllSlides(): Slide[] {
   // 確保目錄存在
@@ -43,39 +43,45 @@ export function getAllSlides(): Slide[] {
     return [];
   }
 
-  const files = fs.readdirSync(slidesDirectory);
-  const htmlFiles = files.filter(file => file.endsWith('.html'));
+  const items = fs.readdirSync(slidesDirectory, { withFileTypes: true });
+  const slideFolders = items.filter(item => item.isDirectory());
 
-  const slides = htmlFiles.map((filename) => {
-    const fullPath = path.join(slidesDirectory, filename);
-    const slug = filename.replace(/\.html$/, '');
+  const slides = slideFolders
+    .map((folder) => {
+      const slug = folder.name;
+      const indexPath = path.join(slidesDirectory, slug, 'index.html');
 
-    let title = slug; // 預設使用檔名
-    let date: string | null = null;
-
-    try {
-      const htmlContent = fs.readFileSync(fullPath, 'utf8');
-      const extractedTitle = extractTitleFromHTML(htmlContent);
-      if (extractedTitle) {
-        title = extractedTitle;
+      // 檢查是否存在 index.html
+      if (!fs.existsSync(indexPath)) {
+        return null;
       }
 
-      // 從檔案修改時間獲取日期
-      const stats = fs.statSync(fullPath);
-      date = stats.mtime.toISOString().split('T')[0];
-    } catch (error) {
-      console.error(`Error reading slide: ${filename}`, error);
-    }
+      let title = slug; // 預設使用資料夾名稱
+      let date: string | null = null;
 
-    return {
-      slug,
-      filename,
-      metadata: {
-        title,
-        date,
-      },
-    };
-  });
+      try {
+        const htmlContent = fs.readFileSync(indexPath, 'utf8');
+        const extractedTitle = extractTitleFromHTML(htmlContent);
+        if (extractedTitle) {
+          title = extractedTitle;
+        }
+
+        // 從檔案修改時間獲取日期
+        const stats = fs.statSync(indexPath);
+        date = stats.mtime.toISOString().split('T')[0];
+      } catch (error) {
+        console.error(`Error reading slide: ${slug}`, error);
+      }
+
+      return {
+        slug,
+        metadata: {
+          title,
+          date,
+        },
+      };
+    })
+    .filter((slide): slide is Slide => slide !== null);
 
   // 按日期降序排序
   return slides.sort((a, b) => {
@@ -87,16 +93,11 @@ export function getAllSlides(): Slide[] {
 }
 
 /**
- * 根據 slug 獲取簡報檔案路徑
+ * 根據 slug 檢查簡報是否存在
  */
-export function getSlideBySlug(slug: string): string | null {
-  const fullPath = path.join(slidesDirectory, `${slug}.html`);
-
-  if (!fs.existsSync(fullPath)) {
-    return null;
-  }
-
-  return fullPath;
+export function getSlideBySlug(slug: string): boolean {
+  const indexPath = path.join(slidesDirectory, slug, 'index.html');
+  return fs.existsSync(indexPath);
 }
 
 /**
@@ -107,8 +108,12 @@ export function getAllSlideSlugs(): string[] {
     return [];
   }
 
-  const files = fs.readdirSync(slidesDirectory);
-  return files
-    .filter(file => file.endsWith('.html'))
-    .map(file => file.replace(/\.html$/, ''));
+  const items = fs.readdirSync(slidesDirectory, { withFileTypes: true });
+  return items
+    .filter(item => item.isDirectory())
+    .filter(item => {
+      const indexPath = path.join(slidesDirectory, item.name, 'index.html');
+      return fs.existsSync(indexPath);
+    })
+    .map(item => item.name);
 }
