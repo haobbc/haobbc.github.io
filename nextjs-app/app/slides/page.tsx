@@ -1,5 +1,5 @@
 import { getAllSlides } from "@/lib/slides"
-import { Presentation, ExternalLink } from "lucide-react"
+import { Presentation, ExternalLink, Maximize2 } from "lucide-react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -26,23 +26,46 @@ export default function SlidesPage() {
               </p>
             </div>
           ) : (
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {slides.map((slide) => (
-                <li key={slide.slug} className="pl-6 relative before:content-['◆'] before:absolute before:left-0 before:text-blue-500 before:text-xl">
-                  <Link
-                    href={`/slides/${slide.slug}`}
-                    className="group inline-flex items-center gap-3 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="font-bold text-lg text-gray-700 group-hover:text-blue-600">
-                      {slide.metadata.title}
-                    </span>
-                    {slide.metadata.date && (
-                      <span className="text-gray-500 italic text-sm">
-                        ({new Date(slide.metadata.date).toLocaleDateString('zh-TW')})
-                      </span>
-                    )}
-                    <ExternalLink className="w-4 h-4 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
+                <li key={slide.slug} className="pl-6 relative before:content-['◆'] before:absolute before:left-0 before:top-2 before:text-blue-500 before:text-xl">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <Link
+                        href={`/slides/${slide.slug}`}
+                        className="group inline-flex items-center gap-2 hover:text-blue-600 transition-colors"
+                      >
+                        <span className="font-bold text-lg text-gray-700 group-hover:text-blue-600">
+                          {slide.metadata.title}
+                        </span>
+                        {slide.metadata.date && (
+                          <span className="text-gray-500 italic text-sm">
+                            ({new Date(slide.metadata.date).toLocaleDateString('zh-TW')})
+                          </span>
+                        )}
+                      </Link>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <Link
+                        href={`/slides/${slide.slug}`}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-white hover:bg-blue-600 border border-blue-600 rounded-md transition-colors"
+                        title="在頁面中檢視（帶返回按鈕）"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        檢視
+                      </Link>
+                      <a
+                        href={`/slide-content/${slide.slug}/index.html`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-green-600 hover:text-white hover:bg-green-600 border border-green-600 rounded-md transition-colors"
+                        title="在新視窗中開啟完整簡報"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                        新視窗
+                      </a>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
