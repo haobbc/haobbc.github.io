@@ -19,6 +19,11 @@
 ```
 .
 ├── nextjs-app/             # Next.js 15 應用（主要版本）
+│   ├── public/
+│   │   └── slide-content/  # Reveal.js 簡報內容
+│   │       ├── ar_neurosurgery/          # AR in Neurosurgery 簡報
+│   │       ├── traumatic-brain-injury/   # TBI 簡報
+│   │       └── meeting-with-teacher/     # 教學會議簡報
 ├── react-app/              # React 19 + Vite 應用
 ├── .github/workflows/      # GitHub Actions 自動部署配置
 └── CLAUDE.md               # AI 開發助手指南

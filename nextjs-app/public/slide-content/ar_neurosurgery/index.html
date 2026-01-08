@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Augmented Reality in Neurosurgery</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/theme/black.css">
+    <style>
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+        }
+        .reveal section img {
+            border: none;
+            box-shadow: none;
+            background: none;
+        }
+        .reveal .small-text {
+            font-size: 0.7em;
+        }
+        .reveal .two-column {
+            display: flex;
+            gap: 2em;
+        }
+        .reveal .two-column > * {
+            flex: 1;
+        }
+        .highlight {
+            color: #42affa;
+        }
+        .reveal ul {
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section>
+                <h1>Augmented Reality in Neurosurgery</h1>
+                <h3>Applications and Evolution</h3>
+                <p>傅冠豪 醫師</p>
+                <p>基隆長庚神經外科</p>
+            </section>
+
+            <!-- Slide 2: What is AR? -->
+            <section>
+                <h2>What is Augmented Reality?</h2>
+                <div class="two-column">
+                    <div>
+                        <ul>
+                            <li>Superimposing digital content onto the real environment</li>
+                            <li>Integrates 3D anatomical data with real world</li>
+                            <li><span class="highlight">AR ≠ VR</span></li>
+                            <ul class="small-text">
+                                <li>AR: Digital + Real world</li>
+                                <li>VR: Completely virtual</li>
+                            </ul>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="image/fig1.png" alt="Modern AR glasses" style="max-height: 400px;">
+                        <p class="small-text">Modern AR Head-Mounted Displays</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Historical Evolution -->
+            <section>
+                <h2>Historical Evolution of AR</h2>
+                <div class="two-column">
+                    <div>
+                        <ul class="small-text">
+                            <li><strong>1968:</strong> Ivan Sutherland - "The Sword of Damocles"
+                                <ul><li>First AR head-mounted display</li></ul>
+                            </li>
+                            <li><strong>1990s:</strong> First AR neuronavigation systems</li>
+                            <li><strong>2015+:</strong> Second wave - Modern wearable devices
+                                <ul>
+                                    <li>Microsoft HoloLens 1 & 2</li>
+                                    <li>Magic Leap 1 & 2</li>
+                                    <li>Apple Vision Pro</li>
+                                </ul>
+                            </li>
+                            <li class="highlight">85% of AR research published after 2014</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="image/sword-of-damocles.png" alt="The Sword of Damocles" style="max-height: 450px;">
+                        <p class="small-text">"The Sword of Damocles" (1968)<br>First AR HMD by Ivan Sutherland</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Key Advantages -->
+            <section>
+                <h2>Why AR in Neurosurgery?</h2>
+                <div class="two-column">
+                    <div>
+                        <h3>Traditional Navigation</h3>
+                        <ul class="small-text">
+                            <li>Attention shift to separate monitor</li>
+                            <li>Pointer needed for correlation</li>
+                            <li>Increased cognitive workload</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="highlight">AR Navigation</h3>
+                        <ul class="small-text">
+                            <li>Direct overlay on surgical field</li>
+                            <li>No attention shift</li>
+                            <li>Reduced cognitive workload</li>
+                            <li>Better spatial understanding</li>
+                        </ul>
+                    </div>
+                </div>
+                <img src="image/fig2.png" alt="AR overlay example" style="max-height: 300px; margin-top: 20px;">
+            </section>
+
+            <!-- Slide 5: Technical Pipeline -->
+            <section>
+                <h2>Technical Components of AR</h2>
+                <ol>
+                    <li><span class="highlight">Image Segmentation</span> - Identify regions of interest</li>
+                    <li><span class="highlight">Model Rendering</span> - Create 3D visualizations</li>
+                    <li><span class="highlight">AR Projection</span> - Display virtual content</li>
+                    <li><span class="highlight">Image-to-Patient Registration</span> - Align virtual with real</li>
+                </ol>
+                <p class="small-text" style="margin-top: 2em;">Each component has multiple technical solutions with unique advantages and limitations</p>
+            </section>
+
+            <!-- Slide 6: Image Segmentation -->
+            <section>
+                <h2>Image Segmentation Methods</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="image/fig3.png" alt="Ventricular segmentation" style="max-height: 350px;">
+                        <p class="small-text">Automatic segmentation of ventricular system</p>
+                    </div>
+                    <div>
+                        <ul class="small-text">
+                            <li><strong>Threshold-based</strong>
+                                <ul><li>Simple, limited for complex anatomy</li></ul>
+                            </li>
+                            <li><strong>Atlas-based</strong>
+                                <ul><li>Uses reference templates</li></ul>
+                            </li>
+                            <li><strong>Deep Learning</strong>
+                                <ul><li>Automatic, accurate</li>
+                                    <li>Requires training data</li></ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Rendering Methods -->
+            <section>
+                <h2>Rendering: Volumetric vs Surface</h2>
+                <div class="two-column">
+                    <div>
+                        <h3>Volumetric</h3>
+                        <img src="image/fig4.png" alt="Volumetric rendering" style="max-height: 250px;">
+                        <ul class="small-text">
+                            <li>Complete volume data</li>
+                            <li>Realistic visualization</li>
+                            <li>Computationally intensive</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Surface-based</h3>
+                        <img src="image/fig5.png" alt="Surface rendering" style="max-height: 250px;">
+                        <ul class="small-text">
+                            <li>External boundaries only</li>
+                            <li>Computationally efficient</li>
+                            <li>Clear, concise visualization</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Projection Methods -->
+            <section>
+                <h2>AR Projection Modalities</h2>
+                <ul>
+                    <li><strong>Digital Displays</strong> - Tablets, smartphones
+                        <ul class="small-text"><li>Accurate but cumbersome to hold</li></ul>
+                    </li>
+                    <li><strong>Heads-Up Displays (HUDs)</strong> - Surgical microscopes
+                        <ul class="small-text"><li>Integrated into microscope optics</li></ul>
+                    </li>
+                    <li><strong>Head-Mounted Displays (HMDs)</strong> - AR glasses
+                        <ul class="small-text"><li>Hands-free, spatial mapping capable</li></ul>
+                    </li>
+                </ul>
+                <img src="image/fig8.png" alt="AR-HMD in OR" style="max-height: 250px; margin-top: 20px;">
+            </section>
+
+            <!-- Slide 9: Registration & Tracking -->
+            <section>
+                <h2>Image-to-Patient Registration</h2>
+                <p>Critical for accurate neuronavigation</p>
+                <ul class="small-text">
+                    <li><strong>Optical Tracking</strong> - Infrared retroreflective markers
+                        <ul><li>Sub-millimeter accuracy</li></ul>
+                    </li>
+                    <li><strong>Electromagnetic Tracking</strong> - Magnetic field-based
+                        <ul><li>No line-of-sight limitations</li></ul>
+                    </li>
+                    <li><strong>Computer Vision</strong> - Feature-based, markerless
+                        <ul><li>No additional hardware needed</li></ul>
+                    </li>
+                    <li><strong>Intraoperative Imaging</strong> - Real-time CT/MRI
+                        <ul><li>Fully automatic registration</li></ul>
+                    </li>
+                </ul>
+                <img src="image/fig9.png" alt="Optical tracking" style="max-height: 200px; margin-top: 10px;">
+            </section>
+
+            <!-- Slide 10: Accuracy Metrics -->
+            <section>
+                <h2>Measuring AR Accuracy</h2>
+                <table style="font-size: 0.65em;">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Definition</th>
+                            <th>AR Limitation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>TRE</strong></td>
+                            <td>Target Registration Error</td>
+                            <td>Doesn't account for projection offset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FRE</strong></td>
+                            <td>Fiducial Registration Error</td>
+                            <td>No correlation with clinical accuracy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Planning Deviation</strong></td>
+                            <td>Planned vs achieved target</td>
+                            <td>User-dependent</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight"><strong>Overlay Error</strong></td>
+                            <td>Visual projection discrepancy</td>
+                            <td class="highlight">Most clinically relevant for AR</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Slide 11: Clinical Applications - Vascular -->
+            <section>
+                <h2>AR in Vascular Neurosurgery</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="image/fig7.png" alt="Vascular AR" style="max-height: 300px;">
+                        <p class="small-text">AR overlay of vessels in microscope</p>
+                    </div>
+                    <div>
+                        <ul class="small-text">
+                            <li>Aneurysm surgery</li>
+                            <li>Arteriovenous malformations</li>
+                            <li>AV fistulas</li>
+                        </ul>
+                        <p class="small-text" style="margin-top: 1em;"><strong>Applications:</strong></p>
+                        <ul class="small-text">
+                            <li>Craniotomy planning</li>
+                            <li>Vessel localization</li>
+                            <li>Complex angioarchitecture visualization</li>
+                            <li>Clip size selection</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: Clinical Applications - Oncology -->
+            <section>
+                <h2>AR in Neuro-Oncology</h2>
+                <img src="image/fig6.png" alt="Tumor overlay" style="max-height: 250px;">
+                <ul class="small-text">
+                    <li><strong>Tumor Types:</strong> Gliomas, Metastases, Meningiomas</li>
+                    <li><strong>Pre-operative:</strong> Incision and craniotomy planning</li>
+                    <li><strong>Intra-operative:</strong> Distinguish tumor-brain interface</li>
+                    <li><strong>Advanced:</strong> Fiber tractography integration for safe resection</li>
+                    <li class="highlight"><strong>Challenge:</strong> Brain shift after tumor resection</li>
+                </ul>
+            </section>
+
+            <!-- Slide 13: Clinical Applications - Spine -->
+            <section>
+                <h2>AR in Spinal Surgery</h2>
+                <p>Most extensively studied AR application</p>
+                <ul class="small-text">
+                    <li><strong>Primary Use:</strong> Pedicle screw insertion guidance</li>
+                    <li><strong>Advantages:</strong>
+                        <ul>
+                            <li>Real-time instrument tracking</li>
+                            <li>Reduced fluoroscopy (radiation exposure)</li>
+                            <li>Superior user experience</li>
+                            <li>Non-inferior accuracy vs conventional navigation</li>
+                        </ul>
+                    </li>
+                    <li><strong>Other Applications:</strong>
+                        <ul>
+                            <li>Discectomy</li>
+                            <li>Intradural tumor resection</li>
+                            <li>Kyphoplasty/Vertebroplasty</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Slide 14: Education & Training -->
+            <section>
+                <h2>AR in Education & Training</h2>
+                <div class="two-column">
+                    <div>
+                        <h3>Medical Education</h3>
+                        <ul class="small-text">
+                            <li>3D anatomical models</li>
+                            <li>No need for cadavers</li>
+                            <li>Increased motivation</li>
+                            <li>Decreased cognitive load</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Surgical Training</h3>
+                        <ul class="small-text">
+                            <li>Realistic simulations</li>
+                            <li>Haptic feedback</li>
+                            <li>Performance metrics</li>
+                            <li>Procedures: EVD, burr holes, pedicle screws</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="highlight small-text" style="margin-top: 1em;">Patient education: Increased understanding and satisfaction</p>
+            </section>
+
+            <!-- Slide 15: Current Limitations -->
+            <section>
+                <h2>Current Limitations</h2>
+                <ul class="small-text">
+                    <li><strong>Projection Errors:</strong> Additional registration error component</li>
+                    <li><strong>Visual Conflicts:</strong> Vergence-accommodation mismatch
+                        <ul><li>Can cause eye strain, vertigo</li></ul>
+                    </li>
+                    <li><strong>Computational Power:</strong> Limited by HMD size
+                        <ul><li>Complex anatomy, real-time tracking challenges</li></ul>
+                    </li>
+                    <li><strong>Visual Occlusion:</strong> Holograms obstruct surgical view
+                        <ul><li>Can be mitigated with specialized shaders</li></ul>
+                    </li>
+                    <li><strong>Brain Shift:</strong> Tissue displacement after resection
+                        <ul><li>Requires intraoperative imaging or tissue modeling</li></ul>
+                    </li>
+                    <li><strong>Cost & Complexity:</strong> Substantial investment required</li>
+                </ul>
+            </section>
+
+            <!-- Slide 16: Future Perspectives -->
+            <section>
+                <h2>Future Directions</h2>
+                <div class="two-column">
+                    <div>
+                        <h3>Technical Improvements</h3>
+                        <ul class="small-text">
+                            <li>High-resolution spatial mapping</li>
+                            <li>Enhanced projection accuracy</li>
+                            <li>Varifocal displays</li>
+                            <li>Improved computational power</li>
+                            <li>Better graphical shaders</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Clinical Integration</h3>
+                        <ul class="small-text">
+                            <li>Real-time brain shift correction</li>
+                            <li>Multimodal imaging integration</li>
+                            <li>AI-powered segmentation</li>
+                            <li>User feedback-driven design</li>
+                            <li>Industry collaboration</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="highlight" style="margin-top: 1em;">Goal: Transform AR from ancillary tool to central OR technology</p>
+            </section>
+
+            <!-- Slide 17: Conclusion -->
+            <section>
+                <h2>Conclusion</h2>
+                <ul>
+                    <li>AR is evolving from experimental to clinical reality</li>
+                    <li>Proven applications across neurosurgical subspecialties</li>
+                    <li>Technical challenges being addressed by innovation</li>
+                    <li class="highlight">Potential to revolutionize neurosurgical practice</li>
+                </ul>
+                <p style="margin-top: 2em; font-size: 0.8em;">The future neurosurgeon will seamlessly integrate virtual and real worlds</p>
+                <p style="margin-top: 2em; font-size: 1.5em;">Questions?</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            center: true,
+            slideNumber: true,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            width: 1280,
+            height: 720,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+    </script>
+</body>
+</html>
