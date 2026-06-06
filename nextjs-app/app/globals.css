@@ -1,32 +1,23 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "highlight.js/styles/github.css";
-@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* NEJM-inspired editorial palette */
+    --nejm-cream: #faf7f1;
+    --nejm-paper: #fdfbf6;
+    --nejm-ink: #1a1a1a;
+    --nejm-charcoal: #2c2a28;
+    --nejm-text: #3a3835;
+    --nejm-muted: #6f6a62;
+    --nejm-rule: #d8d1c2;
+    --nejm-rule-soft: #e8e2d3;
+    --nejm-burgundy: #8b1f24;
+    --nejm-burgundy-dark: #6b1418;
+    --nejm-burgundy-tint: #f4e7e7;
+    --nejm-gold: #a07a3d;
   }
 }
 
@@ -35,8 +26,57 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: var(--nejm-cream);
+    color: var(--nejm-text);
     font-family: 'Helvetica Neue', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+  }
+  .font-serif {
+    font-family: var(--font-serif), 'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', 'Noto Serif TC', serif;
+  }
+  .font-display {
+    font-family: var(--font-serif), 'Source Serif 4', Georgia, 'Times New Roman', 'Noto Serif TC', serif;
+    font-feature-settings: 'liga', 'kern';
+    letter-spacing: -0.005em;
+  }
+}
+
+@layer components {
+  /* Editorial label: small caps, tracked, often in burgundy */
+  .editorial-label {
+    font-family: var(--font-geist-sans), 'Helvetica Neue', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nejm-burgundy);
+  }
+
+  .editorial-label-muted {
+    font-family: var(--font-geist-sans), 'Helvetica Neue', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nejm-muted);
+  }
+
+  /* Editorial card: ivory paper, hairline border */
+  .editorial-card {
+    background-color: var(--nejm-paper);
+    border: 1px solid var(--nejm-rule);
+    border-radius: 2px;
+  }
+
+  /* Thin horizontal rules */
+  .rule-burgundy {
+    border-top: 2px solid var(--nejm-burgundy);
+  }
+  .rule-charcoal {
+    border-top: 1px solid var(--nejm-rule);
+  }
+  .rule-double {
+    border-top: 3px double var(--nejm-burgundy);
   }
 }
 
@@ -79,25 +119,25 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --radius: 0.25rem;
+  --background: oklch(0.975 0.012 85);
+  --foreground: oklch(0.22 0.005 60);
+  --card: oklch(0.985 0.008 85);
+  --card-foreground: oklch(0.22 0.005 60);
+  --popover: oklch(0.985 0.008 85);
+  --popover-foreground: oklch(0.22 0.005 60);
+  --primary: oklch(0.4 0.13 25);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.93 0.012 80);
+  --secondary-foreground: oklch(0.3 0.02 40);
+  --muted: oklch(0.93 0.012 80);
+  --muted-foreground: oklch(0.5 0.012 60);
+  --accent: oklch(0.93 0.02 30);
+  --accent-foreground: oklch(0.4 0.13 25);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.86 0.015 80);
+  --input: oklch(0.86 0.015 80);
+  --ring: oklch(0.55 0.13 25);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -154,370 +194,4 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-/* Markdown Preview Styles */
-.preview-content {
-  font-family: 'Noto Sans TC', 'Helvetica Neue', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
-  font-size: 12pt;
-  line-height: 1.8;
-  text-align: justify;
-  color: #000;
-}
-
-/* 標題樣式 */
-.preview-content .markdown-content h1 {
-  font-size: 20pt;
-  font-weight: bold;
-  text-align: center;
-  margin: 0 0 1.5rem 0;
-  page-break-after: avoid;
-}
-
-.preview-content .markdown-content h2 {
-  font-size: 16pt;
-  font-weight: bold;
-  margin: 2rem 0 1rem 0;
-  page-break-after: avoid;
-}
-
-.preview-content .markdown-content h3 {
-  font-size: 14pt;
-  font-weight: bold;
-  margin: 1.5rem 0 0.75rem 0;
-  page-break-after: avoid;
-}
-
-.preview-content .markdown-content h4 {
-  font-size: 12pt;
-  font-weight: bold;
-  margin: 1rem 0 0.5rem 0;
-}
-
-.preview-content .markdown-content h5 {
-  font-size: 11pt;
-  font-weight: bold;
-  margin: 0.75rem 0 0.5rem 0;
-}
-
-.preview-content .markdown-content h6 {
-  font-size: 10pt;
-  font-weight: bold;
-  margin: 0.5rem 0 0.25rem 0;
-}
-
-/* 段落樣式 */
-.preview-content .markdown-content p {
-  margin: 0 0 1rem 0;
-  text-indent: 2em;
-  orphans: 4;
-  widows: 2;
-}
-
-.preview-content .markdown-content h1 + p,
-.preview-content .markdown-content h2 + p,
-.preview-content .markdown-content h3 + p,
-.preview-content .markdown-content h4 + p,
-.preview-content .markdown-content ul + p,
-.preview-content .markdown-content ol + p {
-  text-indent: 0;
-}
-
-/* 列表樣式 */
-.preview-content .markdown-content ul,
-.preview-content .markdown-content ol {
-  margin: 1rem 0;
-  padding-left: 2.5em;
-  text-indent: 0;
-}
-
-.preview-content .markdown-content ul {
-  list-style-type: disc;
-}
-
-.preview-content .markdown-content ol {
-  list-style-type: decimal;
-}
-
-.preview-content .markdown-content ul ul {
-  list-style-type: circle;
-  margin: 0.5rem 0;
-}
-
-.preview-content .markdown-content ul ul ul {
-  list-style-type: square;
-}
-
-.preview-content .markdown-content ol ol {
-  list-style-type: lower-alpha;
-  margin: 0.5rem 0;
-}
-
-.preview-content .markdown-content li {
-  margin: 0.5rem 0;
-  text-indent: 0;
-}
-
-.preview-content .markdown-content li p {
-  text-indent: 0;
-  margin: 0.5rem 0;
-}
-
-/* 強調與加粗 */
-.preview-content .markdown-content strong {
-  font-weight: bold;
-}
-
-.preview-content .markdown-content em {
-  font-style: italic;
-}
-
-/* 連結樣式 */
-.preview-content .markdown-content a {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.preview-content .markdown-content a:hover {
-  text-decoration: underline;
-}
-
-.preview-content .markdown-content code {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 10pt;
-  background: #f5f5f5;
-  padding: 0.1em 0.3em;
-  border-radius: 3px;
-}
-
-.preview-content .markdown-content pre {
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 0.5em;
-  margin: 1rem 0;
-  overflow-x: auto;
-  font-size: 10pt;
-  line-height: 1.5;
-  border-radius: 4px;
-}
-
-.preview-content .markdown-content pre code {
-  background: none;
-  padding: 0;
-}
-
-.preview-content .markdown-content blockquote {
-  margin: 1rem 2em;
-  padding-left: 1em;
-  border-left: 3px solid #ccc;
-  font-style: italic;
-}
-
-.preview-content .markdown-content table {
-  border-collapse: collapse;
-  margin: 1rem auto;
-  width: 100%;
-}
-
-.preview-content .markdown-content th,
-.preview-content .markdown-content td {
-  border: 1px solid #000;
-  padding: 0.5em;
-  text-align: left;
-}
-
-.preview-content .markdown-content th {
-  background: #f0f0f0;
-  font-weight: bold;
-}
-
-.preview-content .references-section {
-  margin-top: 3rem;
-}
-
-.preview-content .references-section h2 {
-  font-size: 16pt;
-  font-weight: bold;
-  margin: 2rem 0 1.5rem 0;
-  text-align: left;
-}
-
-.preview-content .references-section .csl-entry {
-  margin-bottom: 1em;
-  padding-left: 2em;
-  text-indent: -2em;
-  line-height: 1.5;
-  font-size: 11pt;
-  text-align: left;
-}
-
-.preview-content .references-section .csl-entry a {
-  color: #000;
-  text-decoration: none;
-}
-
-.preview-content .references-section .csl-entry a:hover {
-  text-decoration: underline;
-}
-
-/* 通用 Markdown 內容樣式 - 可用於 preview-content 和獨立使用 */
-.markdown-content h1 {
-  font-size: 20pt;
-  font-weight: bold;
-  text-align: center;
-  margin: 0 0 1.5rem 0;
-  page-break-after: avoid;
-}
-
-.markdown-content h2 {
-  font-size: 16pt;
-  font-weight: bold;
-  margin: 2rem 0 1rem 0;
-  page-break-after: avoid;
-}
-
-.markdown-content h3 {
-  font-size: 14pt;
-  font-weight: bold;
-  margin: 1.5rem 0 0.75rem 0;
-  page-break-after: avoid;
-}
-
-.markdown-content h4 {
-  font-size: 12pt;
-  font-weight: bold;
-  margin: 1rem 0 0.5rem 0;
-}
-
-.markdown-content h5 {
-  font-size: 11pt;
-  font-weight: bold;
-  margin: 0.75rem 0 0.5rem 0;
-}
-
-.markdown-content h6 {
-  font-size: 10pt;
-  font-weight: bold;
-  margin: 0.5rem 0 0.25rem 0;
-}
-
-.markdown-content p {
-  margin: 0 0 1rem 0;
-  text-indent: 2em;
-  orphans: 4;
-  widows: 2;
-}
-
-.markdown-content h1 + p,
-.markdown-content h2 + p,
-.markdown-content h3 + p,
-.markdown-content h4 + p,
-.markdown-content ul + p,
-.markdown-content ol + p {
-  text-indent: 0;
-}
-
-.markdown-content ul,
-.markdown-content ol {
-  margin: 1rem 0;
-  padding-left: 2.5em;
-  text-indent: 0;
-}
-
-.markdown-content ul {
-  list-style-type: disc;
-}
-
-.markdown-content ol {
-  list-style-type: decimal;
-}
-
-.markdown-content ul ul {
-  list-style-type: circle;
-  margin: 0.5rem 0;
-}
-
-.markdown-content ul ul ul {
-  list-style-type: square;
-}
-
-.markdown-content ol ol {
-  list-style-type: lower-alpha;
-  margin: 0.5rem 0;
-}
-
-.markdown-content li {
-  margin: 0.5rem 0;
-  text-indent: 0;
-}
-
-.markdown-content li p {
-  text-indent: 0;
-  margin: 0.5rem 0;
-}
-
-.markdown-content strong {
-  font-weight: bold;
-}
-
-.markdown-content em {
-  font-style: italic;
-}
-
-.markdown-content a {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.markdown-content a:hover {
-  text-decoration: underline;
-}
-
-.markdown-content code {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  font-size: 10pt;
-  background: #f5f5f5;
-  padding: 0.1em 0.3em;
-  border-radius: 3px;
-}
-
-.markdown-content pre {
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 0.5em;
-  margin: 1rem 0;
-  overflow-x: auto;
-  font-size: 10pt;
-  line-height: 1.5;
-  border-radius: 4px;
-}
-
-.markdown-content pre code {
-  background: none;
-  padding: 0;
-}
-
-.markdown-content blockquote {
-  margin: 1rem 2em;
-  padding-left: 1em;
-  border-left: 3px solid #ccc;
-  font-style: italic;
-}
-
-.markdown-content table {
-  border-collapse: collapse;
-  margin: 1rem auto;
-  width: 100%;
-}
-
-.markdown-content th,
-.markdown-content td {
-  border: 1px solid #000;
-  padding: 0.5em;
-  text-align: left;
-}
-
-.markdown-content th {
-  background: #f0f0f0;
-  font-weight: bold;
 }
