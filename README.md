@@ -1,147 +1,67 @@
 # 傅冠豪醫師 (Kuan-Hao Fu, MD) 個人首頁
 
-這個 GitHub 倉庫包含我的個人首頁網站，採用多框架並行開發架構。
+這個 GitHub 倉庫包含公開個人首頁網站。正式網站來源為 `nextjs-app/`，以 Next.js 15 建置並部署到 GitHub Pages。
 
-## 當前部署狀態
+## 網站分頁
 
-### Next.js App（主要版本）
+- **首頁**：個人簡介、現職、學經歷、認證、代表論文
+- **教學簡報**：HTML slides，來源為 `nextjs-app/public/slide-content/<slug>/index.html`
+- **衛教文章**：公開衛教內容入口（規劃中）
+- **快速連結**：臨床、學術、教學常用資源入口（規劃中）
 
-**雙平台部署**：
-- **GitHub Pages**: https://haobbc.github.io/ (靜態導出)
-- **Vercel**: [你的 Vercel URL] (SSR)
-
-### React App
-
-**開發中**：React 19 + Vite
+> 過去的站內筆記、原始 Markdown、MD/BibTeX/CSL 快速論文格式渲染器已移除；之後若需要會拆成獨立 repo。
 
 ## 專案結構
 
-```
+```text
 .
-├── nextjs-app/             # Next.js 15 應用（主要版本）
-│   ├── public/
-│   │   └── slide-content/  # Reveal.js 簡報內容
-│   │       ├── ar_neurosurgery/          # AR in Neurosurgery 簡報
-│   │       ├── traumatic-brain-injury/   # TBI 簡報
-│   │       └── meeting-with-teacher/     # 教學會議簡報
-├── react-app/              # React 19 + Vite 應用
-├── .github/workflows/      # GitHub Actions 自動部署配置
+├── nextjs-app/             # Next.js 15 正式網站
+│   ├── app/                # App Router routes
+│   │   ├── page.tsx        # 首頁
+│   │   ├── slides/         # 教學簡報
+│   │   ├── articles/       # 衛教文章
+│   │   └── links/          # 快速連結
+│   ├── components/         # 共用元件（含 Navigation）
+│   ├── lib/                # slides 掃描與工具函式
+│   └── public/
+│       └── slide-content/  # HTML slides
+├── .github/workflows/      # GitHub Actions 自動部署
 └── CLAUDE.md               # AI 開發助手指南
 ```
 
 ## 開發
 
-### Next.js App（主要開發）
-
 ```bash
 cd nextjs-app
 npm install
 npm run dev
-# 訪問 http://localhost:3000
+# http://localhost:3000
 ```
 
-### React App
+## 建置與部署
 
-```bash
-cd react-app
-npm install
-npm run dev
-# 訪問 http://localhost:5173
-```
+GitHub Pages 使用靜態匯出：
 
-## 部署
-
-### Next.js App - 雙平台自動部署
-
-**一次推送，雙平台同步更新**：
-
-```bash
-# 在 nextjs-app/ 目錄修改代碼後
-git add .
-git commit -m "更新說明"
-git push origin main
-
-# 自動觸發：
-# ✓ GitHub Actions → GitHub Pages (靜態)
-# ✓ Vercel → Vercel Platform (SSR)
-```
-
-#### GitHub Pages 部署
-
-**配置**：
-- 工作流文件：`.github/workflows/deploy.yml`
-- 構建命令：`npm run build:github`
-- 觸發條件：推送到 `main` 分支且修改 `nextjs-app/` 目錄
-
-**驗證**：
-- 查看 GitHub Actions 工作流狀態
-- 訪問 https://haobbc.github.io/
-
-#### Vercel 部署
-
-**配置**：
-- 連接方式：已連接 GitHub repo（自動部署）
-- 構建命令：`npm run build`（默認 SSR 模式）
-- Root Directory：`nextjs-app`
-- 環境變量：自動使用 `.env.production` 的 `NEXT_PUBLIC_DEPLOY_TARGET=vercel`
-
-**驗證**：
-- 查看 Vercel Dashboard
-- 訪問 Vercel 生產 URL
-
-**手動部署**（可選）：
 ```bash
 cd nextjs-app
-vercel --prod
+npm run build:github
 ```
 
-#### 部署配置差異
+部署設定：
 
-| 配置項 | GitHub Pages | Vercel |
-|--------|--------------|--------|
-| 構建命令 | `npm run build:github` | `npm run build` |
-| 輸出模式 | 靜態導出 (`output: 'export'`) | SSR（默認） |
-| 圖片優化 | 關閉 | 啟用 |
-| 環境變量 | `NEXT_PUBLIC_DEPLOY_TARGET=github` | `NEXT_PUBLIC_DEPLOY_TARGET=vercel` |
-
-### React App 部署
-
-當前 React App 處於開發階段，尚未部署。
-
-**構建**：
-```bash
-cd react-app
-npm run build
-```
-
-**部署選項**：
-- GitHub Pages
-- Vercel
-- Netlify
-- Cloudflare Pages
-
-## 內容範圍
-
-Next.js 應用承載：
-- 首頁（個人簡介、學經歷、論文發表）
-- 教學簡報清單（`public/slide-content/<slug>/index.html`）
-- 衛教文章（規劃中）
-- 常用連結（規劃中）
+- Workflow：`.github/workflows/deploy.yml`
+- Build command：`npm run build:github`
+- Artifact：`nextjs-app/out`
+- 觸發條件：push 到 `main` 且修改 `nextjs-app/**` 或 workflow
 
 ## 技術棧
 
-### Next.js App
 - Next.js 15
 - React 19
 - TypeScript 5
 - Tailwind CSS 4
-- Shadcn UI
-
-### React App
-- React 19
-- Vite 7
-- TypeScript 5
-- React Router 7
+- Shadcn UI / Radix UI
+- lucide-react
 
 ## 授權
 

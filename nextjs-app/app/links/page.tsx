@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Link as LinkIcon } from "lucide-react"
 
 export const metadata = {
@@ -6,26 +5,40 @@ export const metadata = {
   description: "常用資源與相關連結。",
 }
 
+const linkGroups = [
+  {
+    title: "醫學與臨床資源",
+    description: "常用臨床與醫學教育資源將整理於此。",
+  },
+  {
+    title: "學術與研究工具",
+    description: "PubMed、投稿、引用與研究流程相關連結將整理於此。",
+  },
+]
+
 export default function LinksPage() {
   return (
-    <div className="container mx-auto py-8 px-4 max-w-5xl">
-      <Card className="hover:shadow-lg transition-shadow">
-        <CardHeader>
-          <CardTitle className="text-2xl border-b-2 border-blue-500 pb-2 flex items-center gap-2">
-            <LinkIcon className="w-6 h-6 text-blue-600" />
-            快速連結
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-12">
-            <LinkIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-700 text-base mb-2">內容整理中</p>
-            <p className="text-gray-500 text-sm">
-              將彙整常用的臨床、學術與教學資源連結，方便快速取用。
+    <main className="mx-auto max-w-5xl px-6 py-10 md:py-14">
+      <section className="editorial-card p-8 md:p-10">
+        <p className="editorial-label mb-4">Quick Links</p>
+        <div className="flex items-start gap-4">
+          <LinkIcon className="mt-1 h-7 w-7 text-[var(--nejm-burgundy)]" />
+          <div>
+            <h1 className="font-display text-4xl text-[var(--nejm-ink)]">快速連結</h1>
+            <p className="mt-4 max-w-2xl leading-8 text-[var(--nejm-muted)]">
+              內容整理中。此頁將作為公開網站的資源入口，保留精簡、可信、易維護的連結清單。
             </p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {linkGroups.map((group) => (
+            <div key={group.title} className="border-t-2 border-[var(--nejm-burgundy)] bg-white/45 p-5">
+              <h2 className="font-display text-2xl text-[var(--nejm-ink)]">{group.title}</h2>
+              <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">{group.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   )
 }

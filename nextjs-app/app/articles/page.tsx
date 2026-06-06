@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { HeartPulse } from "lucide-react"
 
 export const metadata = {
@@ -8,24 +7,19 @@ export const metadata = {
 
 export default function ArticlesPage() {
   return (
-    <div className="container mx-auto py-8 px-4 max-w-5xl">
-      <Card className="hover:shadow-lg transition-shadow">
-        <CardHeader>
-          <CardTitle className="text-2xl border-b-2 border-blue-500 pb-2 flex items-center gap-2">
-            <HeartPulse className="w-6 h-6 text-blue-600" />
-            衛教文章
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-12">
-            <HeartPulse className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-700 text-base mb-2">內容整理中</p>
-            <p className="text-gray-500 text-sm">
-              將陸續分享神經外科相關的衛教資訊，協助病患與家屬了解常見疾病與治療。
+    <main className="mx-auto max-w-5xl px-6 py-10 md:py-14">
+      <section className="editorial-card p-8 md:p-10">
+        <p className="editorial-label mb-4">Patient Education</p>
+        <div className="flex items-start gap-4">
+          <HeartPulse className="mt-1 h-7 w-7 text-[var(--nejm-burgundy)]" />
+          <div>
+            <h1 className="font-display text-4xl text-[var(--nejm-ink)]">衛教文章</h1>
+            <p className="mt-4 max-w-2xl leading-8 text-[var(--nejm-muted)]">
+              內容整理中。未來將以公開、易讀、臨床實用為原則，整理神經外科常見疾病、檢查、手術與術後照護相關資訊。
             </p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </section>
+    </main>
   )
 }
