@@ -27,6 +27,15 @@ export interface Slide {
  */
 const EXTERNAL_SLIDES: Slide[] = [
   {
+    slug: "brain-tumor-asno",
+    metadata: {
+      title: "Brain Tumor · ASNO 2026 Oral Presentation",
+      date: "2026-06-13",
+      description: "ASNO 2026 口頭報告 · 腦瘤研究專題",
+    },
+    external: "https://haobbc.github.io/brain-tumor-asno/",
+  },
+  {
     slug: "integrated-care-2026",
     metadata: {
       title: "林口長庚腦癌團隊精準治療 · SNQ 2026",
