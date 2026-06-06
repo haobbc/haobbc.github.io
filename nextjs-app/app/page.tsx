@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, Mail, GraduationCap, Hospital, ScrollText } from "lucide-react"
+import { ArrowRight, Mail, Hospital } from "lucide-react"
 
 const currentRoles = [
   "基隆長庚紀念醫院 神經外科 主治醫師",
@@ -67,26 +67,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-8 grid gap-6 md:grid-cols-3">
-        <div className="editorial-card p-6">
-          <Hospital className="mb-4 h-6 w-6 text-[var(--nejm-burgundy)]" />
-          <p className="editorial-label-muted mb-2">Clinical Focus</p>
-          <h2 className="font-display text-2xl text-[var(--nejm-ink)]">神經外科臨床照護</h2>
-          <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">
-            專長包含功能性神經外科手術（癲癇手術、VNS、DBS、SCS）、神經重症照護，以及疼痛治療；涵蓋三叉神經痛、failed back surgery syndrome，並提供 PRP、facet block、nerve block 等多元疼痛介入治療。
-          </p>
-        </div>
-        <div className="editorial-card p-6">
-          <GraduationCap className="mb-4 h-6 w-6 text-[var(--nejm-burgundy)]" />
-          <p className="editorial-label-muted mb-2">Teaching</p>
-          <h2 className="font-display text-2xl text-[var(--nejm-ink)]">醫學教育簡報</h2>
-          <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">收錄教學與會議用 HTML slides，適合公開閱讀與投影。</p>
-        </div>
-        <div className="editorial-card p-6">
-          <ScrollText className="mb-4 h-6 w-6 text-[var(--nejm-burgundy)]" />
-          <p className="editorial-label-muted mb-2">Research</p>
-          <h2 className="font-display text-2xl text-[var(--nejm-ink)]">臨床研究發表</h2>
-          <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">聚焦癲癇手術、腦血管病變與神經外科臨床議題。</p>
+      <section className="editorial-card mt-8 p-6 md:p-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-start">
+          <Hospital className="h-7 w-7 shrink-0 text-[var(--nejm-burgundy)]" />
+          <div className="space-y-5">
+            <div>
+              <p className="editorial-label-muted mb-2">Clinical Focus</p>
+              <h2 className="font-display text-3xl text-[var(--nejm-ink)]">神經外科臨床照護與疼痛治療</h2>
+            </div>
+            <p className="text-base leading-8 text-[var(--nejm-text)]">
+              提供民眾較容易理解、也較常被需要的神經外科治療：癲癇手術、迷走神經刺激術（VNS）、深腦刺激術（DBS）、脊髓刺激術（SCS）等功能性神經外科手術；也照護腦出血、腦外傷、中風後重症等神經重症問題。
+            </p>
+            <p className="text-base leading-8 text-[var(--nejm-text)]">
+              疼痛治療方面，評估與處理三叉神經痛、脊椎手術後仍持續疼痛（failed back surgery syndrome）及各類慢性疼痛，並依病況提供 PRP 增生治療、小面關節注射（facet block）、神經阻斷（nerve block）等介入式疼痛治療選項。
+            </p>
+          </div>
         </div>
       </section>
 
