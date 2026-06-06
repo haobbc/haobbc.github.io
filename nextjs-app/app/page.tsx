@@ -76,7 +76,7 @@ export default function Home() {
               <h2 className="font-display text-3xl text-[var(--nejm-ink)]">神經外科臨床照護與疼痛治療</h2>
             </div>
             <p className="text-base leading-8 text-[var(--nejm-text)]">
-              提供民眾較容易理解、也較常被需要的神經外科治療：癲癇手術、迷走神經刺激術（VNS）、深腦刺激術（DBS）、脊髓刺激術（SCS）等功能性神經外科手術；也照護腦出血、腦外傷、中風後重症等神經重症問題。
+              提供癲癇手術、迷走神經刺激術（VNS）、深腦刺激術（DBS）、脊髓刺激術（SCS）等功能性神經外科手術；也照護腦出血、腦外傷、中風後重症等神經重症問題。
             </p>
             <p className="text-base leading-8 text-[var(--nejm-text)]">
               疼痛治療方面，評估與處理三叉神經痛、脊椎手術後仍持續疼痛（failed back surgery syndrome）及各類慢性疼痛，並依病況提供 PRP 增生治療、小面關節注射（facet block）、神經阻斷（nerve block）等介入式疼痛治療選項。
