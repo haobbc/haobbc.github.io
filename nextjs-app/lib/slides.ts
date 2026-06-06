@@ -12,7 +12,39 @@ export interface SlideMetadata {
 export interface Slide {
   slug: string;
   metadata: SlideMetadata;
+  /**
+   * Optional external URL. When set, the slide is hosted elsewhere (e.g.
+   * another GitHub Pages repo) — the listing links straight to the
+   * external URL instead of embedding via /slides/[slug].
+   */
+  external?: string;
 }
+
+/**
+ * Slides hosted outside this repo. Curated manually so the listing can
+ * include large standalone presentation builds without copying their
+ * static output into this repo's public/slide-content/.
+ */
+const EXTERNAL_SLIDES: Slide[] = [
+  {
+    slug: "integrated-care-2026",
+    metadata: {
+      title: "林口長庚腦癌團隊精準治療 · SNQ 2026",
+      date: "2026-05-12",
+      description: "第六組 · 疾病治療整合照護與醫療服務品質提升",
+    },
+    external: "https://haobbc.github.io/integrated-care-2026/",
+  },
+  {
+    slug: "ai-surgery-video",
+    metadata: {
+      title: "AI 在外科手術的應用",
+      date: "2026-05-11",
+      description: "醫學生 / 住院醫師教學影片 · 9 章 / 47 步",
+    },
+    external: "https://haobbc.github.io/ai-surgery-video/",
+  },
+];
 
 /**
  * 從 HTML 檔案中提取標題
@@ -34,57 +66,49 @@ function extractTitleFromHTML(htmlContent: string): string | null {
 }
 
 /**
- * 獲取所有簡報的列表
- * 掃描 public/slides/ 下的所有資料夾，尋找 index.html
+ * 獲取所有簡報的列表 — local (public/slide-content/<slug>/index.html)
+ * 加上 EXTERNAL_SLIDES，依日期降序合併。
  */
 export function getAllSlides(): Slide[] {
-  // 確保目錄存在
-  if (!fs.existsSync(slidesDirectory)) {
-    return [];
-  }
+  const localSlides: Slide[] = fs.existsSync(slidesDirectory)
+    ? fs
+        .readdirSync(slidesDirectory, { withFileTypes: true })
+        .filter((item) => item.isDirectory())
+        .map((folder) => {
+          const slug = folder.name;
+          const indexPath = path.join(slidesDirectory, slug, 'index.html');
 
-  const items = fs.readdirSync(slidesDirectory, { withFileTypes: true });
-  const slideFolders = items.filter(item => item.isDirectory());
+          if (!fs.existsSync(indexPath)) {
+            return null;
+          }
 
-  const slides = slideFolders
-    .map((folder) => {
-      const slug = folder.name;
-      const indexPath = path.join(slidesDirectory, slug, 'index.html');
+          let title = slug;
+          let date: string | null = null;
 
-      // 檢查是否存在 index.html
-      if (!fs.existsSync(indexPath)) {
-        return null;
-      }
+          try {
+            const htmlContent = fs.readFileSync(indexPath, 'utf8');
+            const extractedTitle = extractTitleFromHTML(htmlContent);
+            if (extractedTitle) {
+              title = extractedTitle;
+            }
+            const stats = fs.statSync(indexPath);
+            date = stats.mtime.toISOString().split('T')[0];
+          } catch (error) {
+            console.error(`Error reading slide: ${slug}`, error);
+          }
 
-      let title = slug; // 預設使用資料夾名稱
-      let date: string | null = null;
+          return {
+            slug,
+            metadata: { title, date },
+          } as Slide;
+        })
+        .filter((slide): slide is Slide => slide !== null)
+    : [];
 
-      try {
-        const htmlContent = fs.readFileSync(indexPath, 'utf8');
-        const extractedTitle = extractTitleFromHTML(htmlContent);
-        if (extractedTitle) {
-          title = extractedTitle;
-        }
+  const allSlides = [...localSlides, ...EXTERNAL_SLIDES];
 
-        // 從檔案修改時間獲取日期
-        const stats = fs.statSync(indexPath);
-        date = stats.mtime.toISOString().split('T')[0];
-      } catch (error) {
-        console.error(`Error reading slide: ${slug}`, error);
-      }
-
-      return {
-        slug,
-        metadata: {
-          title,
-          date,
-        },
-      };
-    })
-    .filter((slide): slide is Slide => slide !== null);
-
-  // 按日期降序排序
-  return slides.sort((a, b) => {
+  // 按日期降序排序（無日期排到最後）
+  return allSlides.sort((a, b) => {
     if (!a.metadata.date && !b.metadata.date) return 0;
     if (!a.metadata.date) return 1;
     if (!b.metadata.date) return -1;
