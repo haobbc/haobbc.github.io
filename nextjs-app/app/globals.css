@@ -7,26 +7,19 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* NEJM-inspired editorial palette */
+    --nejm-cream: #faf7f1;
+    --nejm-paper: #fdfbf6;
+    --nejm-ink: #1a1a1a;
+    --nejm-charcoal: #2c2a28;
+    --nejm-text: #3a3835;
+    --nejm-muted: #6f6a62;
+    --nejm-rule: #d8d1c2;
+    --nejm-rule-soft: #e8e2d3;
+    --nejm-burgundy: #8b1f24;
+    --nejm-burgundy-dark: #6b1418;
+    --nejm-burgundy-tint: #f4e7e7;
+    --nejm-gold: #a07a3d;
   }
 }
 
@@ -35,8 +28,57 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: var(--nejm-cream);
+    color: var(--nejm-text);
     font-family: 'Helvetica Neue', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+  }
+  .font-serif {
+    font-family: var(--font-serif), 'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', 'Noto Serif TC', serif;
+  }
+  .font-display {
+    font-family: var(--font-serif), 'Source Serif 4', Georgia, 'Times New Roman', 'Noto Serif TC', serif;
+    font-feature-settings: 'liga', 'kern';
+    letter-spacing: -0.005em;
+  }
+}
+
+@layer components {
+  /* Editorial label: small caps, tracked, often in burgundy */
+  .editorial-label {
+    font-family: var(--font-geist-sans), 'Helvetica Neue', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nejm-burgundy);
+  }
+
+  .editorial-label-muted {
+    font-family: var(--font-geist-sans), 'Helvetica Neue', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nejm-muted);
+  }
+
+  /* Editorial card: ivory paper, hairline border */
+  .editorial-card {
+    background-color: var(--nejm-paper);
+    border: 1px solid var(--nejm-rule);
+    border-radius: 2px;
+  }
+
+  /* Thin horizontal rules */
+  .rule-burgundy {
+    border-top: 2px solid var(--nejm-burgundy);
+  }
+  .rule-charcoal {
+    border-top: 1px solid var(--nejm-rule);
+  }
+  .rule-double {
+    border-top: 3px double var(--nejm-burgundy);
   }
 }
 
@@ -79,25 +121,25 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --radius: 0.25rem;
+  --background: oklch(0.975 0.012 85);
+  --foreground: oklch(0.22 0.005 60);
+  --card: oklch(0.985 0.008 85);
+  --card-foreground: oklch(0.22 0.005 60);
+  --popover: oklch(0.985 0.008 85);
+  --popover-foreground: oklch(0.22 0.005 60);
+  --primary: oklch(0.4 0.13 25);
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.93 0.012 80);
+  --secondary-foreground: oklch(0.3 0.02 40);
+  --muted: oklch(0.93 0.012 80);
+  --muted-foreground: oklch(0.5 0.012 60);
+  --accent: oklch(0.93 0.02 30);
+  --accent-foreground: oklch(0.4 0.13 25);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.86 0.015 80);
+  --input: oklch(0.86 0.015 80);
+  --ring: oklch(0.55 0.13 25);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
