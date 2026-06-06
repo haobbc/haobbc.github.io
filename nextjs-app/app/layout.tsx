@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 
@@ -11,6 +11,14 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -37,9 +45,9 @@ export default function RootLayout({
   return (
     <html lang="zh-TW">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} antialiased`}
       >
-        <div id="layout-wrapper">
+        <div id="layout-wrapper" className="min-h-screen bg-[var(--nejm-cream)]">
           <Navigation />
           {children}
         </div>
