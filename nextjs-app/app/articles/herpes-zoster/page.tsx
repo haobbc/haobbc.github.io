@@ -238,24 +238,22 @@ export default function HerpesZosterArticle() {
           </Note>
         </Section>
 
-        {/* §7 */}
-        <Section number="七" title="何時應該就醫？">
-          <ul className="list-disc space-y-2 pl-6 font-serif text-[15px] leading-8 text-[var(--nejm-text)]">
-            <li>出現典型皮疹立即就醫，務必把握 72 小時黃金治療窗。</li>
-            <li>眼周、額頭、鼻尖出現皮疹 → 眼科會診（懷疑眼帶狀皰疹）。</li>
-            <li>耳痛合併面癱或聽力變化 → 可能為 Ramsay Hunt 症候群，需急診評估。</li>
-            <li>皮疹癒合後疼痛持續超過一個月、夜間影響睡眠 → 安排疼痛科或神經外科評估。</li>
-          </ul>
-        </Section>
-
         <div className="rule-double my-10" />
 
         {/* 結語 */}
         <section>
           <h2 className="font-display text-2xl text-[var(--nejm-ink)]">結語</h2>
           <P>
-            帶狀皰疹早期積極治療可顯著降低 PHN 風險；對於藥物效果不佳的慢性疼痛患者，介入性疼痛治療提供藥物以外的選擇。50
-            歲以上、糖尿病、癌症或免疫低下族群，應優先考慮疫苗接種與早期介入。
+            帶狀皰疹後神經痛（PHN）是慢性神經病理性疼痛的代表性疾病之一。
+            <Strong>當第一線藥物（Gabapentinoid、TCA、局部貼片）效果不佳，或副作用無法耐受時</Strong>
+            ，神經外科可以提供神經阻斷、脈衝高頻熱凝（PRF）、硬脊膜外類固醇注射等
+            <Strong>介入性疼痛治療</Strong>；對於嚴重難治病例，脊髓刺激器（SCS）也是值得評估的選項。若您或家屬已長期受 PHN 困擾，歡迎至神經外科門診進一步討論治療策略。
+          </P>
+          <P>
+            另一方面，<Strong>疫苗接種</Strong>是目前實證最強的預防方式。50
+            歲以上成人、糖尿病、癌症、長期使用免疫抑制劑或其他免疫低下族群，
+            <Strong>建議於門診諮詢是否適合施打 RZV（Shingrix）2 劑</Strong>
+            ；曾得過帶狀皰疹者，於急性期完全恢復後仍可接種以降低復發風險。
           </P>
         </section>
 
