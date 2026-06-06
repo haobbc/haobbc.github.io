@@ -72,7 +72,9 @@ export default function Home() {
           <Hospital className="mb-4 h-6 w-6 text-[var(--nejm-burgundy)]" />
           <p className="editorial-label-muted mb-2">Clinical Focus</p>
           <h2 className="font-display text-2xl text-[var(--nejm-ink)]">神經外科臨床照護</h2>
-          <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">以病人理解與治療決策為核心，逐步整理公開衛教內容。</p>
+          <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">
+            專長包含功能性神經外科手術（癲癇手術、VNS、DBS、SCS）、神經重症照護，以及疼痛治療；涵蓋三叉神經痛、failed back surgery syndrome，並提供 PRP、facet block、nerve block 等多元疼痛介入治療。
+          </p>
         </div>
         <div className="editorial-card p-6">
           <GraduationCap className="mb-4 h-6 w-6 text-[var(--nejm-burgundy)]" />
