@@ -84,6 +84,16 @@ npm run dev
 - 更新 `vercel.json`（如有需要）
 - 在本文檔更新專案結構索引
 
+## Next.js 內容範圍
+
+主要的 Next.js 應用僅承載：
+- 首頁（個人簡介、學經歷、論文發表）
+- 教學簡報清單（`public/slide-content/<slug>/index.html`）
+- 衛教文章（規劃中）
+- 常用連結（規劃中）
+
+請勿擴充其他用途；過去的站內 Markdown / 引用渲染（notes、md-renderer）已移除，未來新內容優先採用靜態 HTML 或直接的 React 元件。
+
 ## 子專案索引
 
 - [Next.js App](./nextjs-app/CLAUDE.md) - 主要應用，支援 SSR 和靜態導出

@@ -120,6 +120,14 @@ npm run build
 - Netlify
 - Cloudflare Pages
 
+## 內容範圍
+
+Next.js 應用承載：
+- 首頁（個人簡介、學經歷、論文發表）
+- 教學簡報清單（`public/slide-content/<slug>/index.html`）
+- 衛教文章（規劃中）
+- 常用連結（規劃中）
+
 ## 技術棧
 
 ### Next.js App
@@ -128,14 +136,12 @@ npm run build
 - TypeScript 5
 - Tailwind CSS 4
 - Shadcn UI
-- Citation.js (引用處理)
 
 ### React App
 - React 19
 - Vite 7
 - TypeScript 5
 - React Router 7
-- Citation.js (引用處理)
 
 ## 授權
 
