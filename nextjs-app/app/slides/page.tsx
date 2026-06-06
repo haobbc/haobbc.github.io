@@ -13,7 +13,7 @@ export default function SlidesPage() {
         <CardHeader>
           <CardTitle className="text-2xl border-b-2 border-blue-500 pb-2 flex items-center gap-2">
             <Presentation className="w-6 h-6 text-blue-600" />
-            簡報清單
+            教學簡報
           </CardTitle>
         </CardHeader>
         <CardContent>

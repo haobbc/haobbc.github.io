@@ -3,7 +3,29 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Home, FileText, BookOpen, Presentation } from "lucide-react"
+import { Home, Presentation, HeartPulse, Link as LinkIcon } from "lucide-react"
+
+const navItems = [
+  { href: "/", label: "首頁", icon: Home, match: (p: string | null) => p === "/" },
+  {
+    href: "/slides",
+    label: "教學簡報",
+    icon: Presentation,
+    match: (p: string | null) => !!p?.startsWith("/slides"),
+  },
+  {
+    href: "/articles",
+    label: "衛教文章",
+    icon: HeartPulse,
+    match: (p: string | null) => !!p?.startsWith("/articles"),
+  },
+  {
+    href: "/links",
+    label: "快速連結",
+    icon: LinkIcon,
+    match: (p: string | null) => !!p?.startsWith("/links"),
+  },
+]
 
 export function Navigation() {
   const pathname = usePathname()
@@ -29,54 +51,21 @@ export function Navigation() {
         </Link>
 
         <div className="flex gap-2">
-          <Link
-            href="/"
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-              pathname === "/"
-                ? "bg-white text-blue-800 shadow-md scale-105"
-                : "text-white hover:bg-blue-700 hover:shadow-md"
-            )}
-          >
-            <Home className="w-4 h-4" />
-            <span className="hidden sm:inline">首頁</span>
-          </Link>
-          <Link
-            href="/notes"
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-              pathname?.startsWith("/notes")
-                ? "bg-white text-blue-800 shadow-md scale-105"
-                : "text-white hover:bg-blue-700 hover:shadow-md"
-            )}
-          >
-            <BookOpen className="w-4 h-4" />
-            <span className="hidden sm:inline">筆記</span>
-          </Link>
-          <Link
-            href="/slides"
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-              pathname?.startsWith("/slides")
-                ? "bg-white text-blue-800 shadow-md scale-105"
-                : "text-white hover:bg-blue-700 hover:shadow-md"
-            )}
-          >
-            <Presentation className="w-4 h-4" />
-            <span className="hidden sm:inline">簡報清單</span>
-          </Link>
-          <Link
-            href="/md-renderer"
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-              pathname === "/md-renderer"
-                ? "bg-white text-blue-800 shadow-md scale-105"
-                : "text-white hover:bg-blue-700 hover:shadow-md"
-            )}
-          >
-            <FileText className="w-4 h-4" />
-            <span className="hidden sm:inline">論文渲染器</span>
-          </Link>
+          {navItems.map(({ href, label, icon: Icon, match }) => (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+                match(pathname)
+                  ? "bg-white text-blue-800 shadow-md scale-105"
+                  : "text-white hover:bg-blue-700 hover:shadow-md"
+              )}
+            >
+              <Icon className="w-4 h-4" />
+              <span className="hidden sm:inline">{label}</span>
+            </Link>
+          ))}
         </div>
       </div>
     </nav>
