@@ -18,6 +18,13 @@ export interface Slide {
 
 export const SLIDES: Slide[] = [
   {
+    slug: "traumatic-brain-injury",
+    title: "頭部外傷及腦血管外傷處置",
+    date: "2026-10-29",
+    description: "2026 重製版（初版 Marp 2025-11-06）",
+    href: "/slide-content/traumatic-brain-injury/index.html",
+  },
+  {
     slug: "brain-tumor-asno",
     title: "Brain Tumor · ASNO 2026 Oral Presentation",
     date: "2026-06-13",
@@ -43,12 +50,6 @@ export const SLIDES: Slide[] = [
     title: "Augmented Reality in Neurosurgery",
     date: "2026-01-09",
     href: "/slide-content/ar_neurosurgery/index.html",
-  },
-  {
-    slug: "traumatic-brain-injury",
-    title: "頭部外傷及腦血管外傷處置",
-    date: "2025-11-06",
-    href: "/slide-content/traumatic-brain-injury/index.html",
   },
   {
     slug: "meeting-with-teacher",
