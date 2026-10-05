@@ -18,10 +18,10 @@ export interface Slide {
 
 export const SLIDES: Slide[] = [
   {
+    // 演講日 2026-10-29（2026 重製版）；前一版 Marp 演講日 2025-11-06
     slug: "traumatic-brain-injury",
     title: "頭部外傷及腦血管外傷處置",
     date: "2026-10-29",
-    description: "2026 重製版（初版 Marp 2025-11-06）",
     href: "/slide-content/traumatic-brain-injury/index.html",
   },
   {
