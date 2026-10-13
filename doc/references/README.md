@@ -11,6 +11,7 @@
 | 檔案 | 主題 | 使用於 |
 |---|---|---|
 | `normal-pressure-hydrocephalus.md` | 常壓性水腦症 | `doc/articles/normal-pressure-hydrocephalus.md` |
+| `chronic-subdural-hematoma.md` | 慢性硬腦膜下血腫 | `doc/articles/chronic-subdural-hematoma.md` |
 
 ## 檔頭格式
 
