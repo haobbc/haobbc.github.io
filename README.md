@@ -6,10 +6,10 @@
 
 - **首頁**：個人簡介、現職、學經歷、認證、代表論文
 - **教學簡報**：HTML slides，來源為 `nextjs-app/public/slide-content/<slug>/index.html`
-- **衛教文章**：公開衛教內容入口（規劃中）
+- **衛教文章**：來源為 `doc/articles/<slug>.md`（受限 Markdown），build 時以固定版型轉成頁面
 - **快速連結**：臨床、學術、教學常用資源入口（規劃中）
 
-> 過去的站內筆記、原始 Markdown、MD/BibTeX/CSL 快速論文格式渲染器已移除；之後若需要會拆成獨立 repo。
+> 過去的站內筆記、MD/BibTeX/CSL 快速論文格式渲染器已移除。衛教文章另以零依賴的受限 Markdown 解析器處理，不使用 remark／rehype／MDX。
 
 ## 專案結構
 
@@ -19,12 +19,15 @@
 │   ├── app/                # App Router routes
 │   │   ├── page.tsx        # 首頁
 │   │   ├── slides/         # 教學簡報
-│   │   ├── articles/       # 衛教文章
+│   │   ├── articles/       # 衛教文章列表與 [slug] 固定版型
 │   │   └── links/          # 快速連結
 │   ├── components/         # 共用元件（含 Navigation）
-│   ├── lib/                # slides 掃描與工具函式
+│   ├── lib/                # 簡報清單、文章讀取與 Markdown 解析
 │   └── public/
 │       └── slide-content/  # HTML slides
+├── doc/                    # 內容庫（不部署原檔）
+│   ├── articles/           # 衛教文章 Markdown
+│   └── references/         # 依主題的出處索引
 ├── .github/workflows/      # GitHub Actions 自動部署
 └── CLAUDE.md               # AI 開發助手指南
 ```

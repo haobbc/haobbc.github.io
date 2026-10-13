@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - 'nextjs-app/**'
+      - 'doc/articles/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 

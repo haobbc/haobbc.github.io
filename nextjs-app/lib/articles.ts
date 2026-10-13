@@ -1,45 +1,60 @@
+import fs from "node:fs"
+import path from "node:path"
+import { parseArticle, parseFrontmatter, type ArticleDocument } from "./article-markdown"
+
+/**
+ * 衛教文章來源：repo 根目錄的 doc/articles/<slug>.md（不在 nextjs-app 內）。
+ * 新增文章只需新增一個 .md 檔，列表與頁面會在 build 時自動產生。
+ * 語法見 doc/articles/README.md。
+ */
+const ARTICLES_DIR = path.join(process.cwd(), "..", "doc", "articles")
+const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
 export interface ArticleMeta {
-  slug: string;
-  title: string;
+  slug: string
+  /** 列表用完整標題：「主標題：副標題」 */
+  title: string
   /** YYYY-MM-DD */
-  date: string;
-  summary: string;
-  category?: string;
+  date: string
+  summary: string
+  category?: string
 }
 
-const ARTICLES: ArticleMeta[] = [
-  {
-    slug: "normal-pressure-hydrocephalus",
-    title: "常壓性水腦症（Normal Pressure Hydrocephalus）：神經外科的角色與臨床管理",
-    date: "2026-10-13",
-    summary:
-      "整理高齡者步態不穩、認知變慢與頻尿的可治療原因：常壓性水腦症的診斷層級、DESH 影像與腰椎放液測試，以及腦脊髓液分流手術的證據（含 2025 年雙盲 PENS 試驗）、風險、可調式閥門與手術時機。",
-    category: "水腦症 Hydrocephalus",
-  },
-  {
-    slug: "trigeminal-neuralgia",
-    title: "三叉神經痛（Trigeminal Neuralgia）：神經外科疼痛治療的角色與臨床管理",
-    date: "2026-09-29",
-    summary:
-      "從神經外科疼痛治療的視角，整理三叉神經痛的分型與磁振造影、carbamazepine／oxcarbazepine 藥物治療（含台灣 HLA-B*1502 用藥安全），以及微血管減壓、經皮治療與放射手術的選擇時機。",
-    category: "疼痛治療 Pain Management",
-  },
-  {
-    slug: "herpes-zoster",
-    title: "帶狀皰疹（Herpes Zoster）：神經外科疼痛治療的角色與臨床管理",
-    date: "2026-06-06",
-    summary:
-      "從神經外科疼痛治療的視角，整理急性期抗病毒治療、帶狀皰疹後神經痛（PHN）階梯式管理、介入性治療時機，以及疫苗預防策略。",
-    category: "疼痛治療 Pain Management",
-  },
-];
+function articleFiles(): string[] {
+  return fs
+    .readdirSync(ARTICLES_DIR)
+    .filter((name) => name.endsWith(".md") && name !== "README.md")
+    .map((name) => {
+      const slug = name.slice(0, -3)
+      if (!SLUG.test(slug)) throw new Error(`文章檔名須為英文小寫加連字號：doc/articles/${name}`)
+      return slug
+    })
+}
+
+function readSource(slug: string): string {
+  return fs.readFileSync(path.join(ARTICLES_DIR, `${slug}.md`), "utf8")
+}
 
 export function getAllArticles(): ArticleMeta[] {
-  return [...ARTICLES].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  return articleFiles()
+    .map((slug) => {
+      const { frontmatter } = parseFrontmatter(readSource(slug), `doc/articles/${slug}.md`)
+      return {
+        slug,
+        title: `${frontmatter.title}：${frontmatter.subtitle}`,
+        date: frontmatter.date,
+        summary: frontmatter.summary,
+        category: frontmatter.category,
+      }
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-export function getArticleBySlug(slug: string): ArticleMeta | undefined {
-  return ARTICLES.find((article) => article.slug === slug);
+export function getArticleSlugs(): string[] {
+  return articleFiles()
+}
+
+export function getArticleDocument(slug: string): ArticleDocument | undefined {
+  if (!articleFiles().includes(slug)) return undefined
+  return parseArticle(readSource(slug), `doc/articles/${slug}.md`)
 }
