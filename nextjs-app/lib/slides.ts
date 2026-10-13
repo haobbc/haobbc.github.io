@@ -18,7 +18,7 @@ export interface Slide {
 
 export const SLIDES: Slide[] = [
   {
-    // 演講日 2026-10-29（2026 重製版）；前一版 Marp 演講日 2025-11-06
+    // 2026 v2 release：演講日 2026-10-29（tbi-presentation presentation-v2/release/tbi-lecture.html）
     slug: "traumatic-brain-injury",
     title: "頭部外傷及腦血管外傷處置",
     date: "2026-10-29",
@@ -50,6 +50,13 @@ export const SLIDES: Slide[] = [
     title: "Augmented Reality in Neurosurgery",
     date: "2026-01-09",
     href: "/slide-content/ar_neurosurgery/index.html",
+  },
+  {
+    // 2025 Marp historical version：演講日 2025-11-06，自 c2911c6^ 還原
+    slug: "traumatic-brain-injury-2025",
+    title: "頭部外傷及腦血管外傷處置",
+    date: "2025-11-06",
+    href: "/slide-content/traumatic-brain-injury-2025/index.html",
   },
   {
     slug: "meeting-with-teacher",
