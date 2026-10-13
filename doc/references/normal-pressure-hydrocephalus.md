@@ -1,6 +1,7 @@
 # 常壓性水腦症 · 出處索引
 
-文章：`nextjs-app/app/articles/normal-pressure-hydrocephalus/page.tsx`（2026-10-13）
+使用於：
+- `doc/articles/normal-pressure-hydrocephalus.md`（2026-10-13）
 
 > 查核分兩輪。第一輪在雲端 session 進行，Crossref、PubMed、PMC 與 nhi.gov.tw 都被網路政策封鎖，因此全部只能標為 🔶。第二輪（2026-10-13）改在本機環境進行，可直接讀取 Crossref、PubMed、Europe PMC／PMC 全文與健保署官網。第二輪由 4 個未參與寫作的 subagent 依章節平行重查。以下狀態都是第二輪的結果。
 

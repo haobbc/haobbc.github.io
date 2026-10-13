@@ -12,10 +12,12 @@
 
 1. **首頁**（`app/page.tsx`）— 個人簡介、學經歷、論文發表
 2. **教學簡報清單**（`app/slides/`）— 列出並嵌入 `public/slide-content/<slug>/index.html` 的靜態簡報
-3. **衛教文章**（規劃中）— 病患衛教資料
+3. **衛教文章**（`app/articles/`）— 內容在 repo 根目錄 `doc/articles/<slug>.md`，`app/articles/[slug]/page.tsx` 以固定版型（`components/article/article-view.tsx`）呈現
 4. **常用連結**（規劃中）— 對外資源快速入口
 
-過去的 `app/notes`、`app/md-renderer` 已被移除；不再支援站內 Markdown / BibTeX / CSL 渲染。若未來需要展示文字內容，優先採用靜態 HTML（與 slides 一致）或直接寫成 React 元件，避免再引入 remark / rehype / citation-js 等依賴。
+過去的 `app/notes`、`app/md-renderer` 已被移除；不支援 BibTeX／CSL 渲染，也不引入 remark／rehype／MDX／citation-js 等依賴。
+
+衛教文章由 `lib/article-markdown.ts`（零依賴、受限語法）解析。新增語法時修改這個解析器與 `doc/articles/README.md`，不要改用 Markdown 套件。簡報維持手寫靜態 HTML。
 
 ## 技術棧
 
