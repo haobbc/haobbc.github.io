@@ -9,6 +9,14 @@ export interface ArticleMeta {
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: "normal-pressure-hydrocephalus",
+    title: "常壓性水腦症（Normal Pressure Hydrocephalus）：神經外科的角色與臨床管理",
+    date: "2026-10-13",
+    summary:
+      "整理高齡者步態不穩、認知變慢與頻尿的可治療原因：常壓性水腦症的診斷層級、DESH 影像與腰椎放液測試，以及腦脊髓液分流手術的證據（含 2025 年雙盲 PENS 試驗）、風險、可調式閥門與手術時機。",
+    category: "水腦症 Hydrocephalus",
+  },
+  {
     slug: "trigeminal-neuralgia",
     title: "三叉神經痛（Trigeminal Neuralgia）：神經外科疼痛治療的角色與臨床管理",
     date: "2026-09-29",
