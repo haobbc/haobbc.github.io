@@ -11,7 +11,7 @@ export default function ArticlesPage() {
   const articles = getAllArticles()
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-10 md:py-14">
+    <main className="mx-auto max-w-6xl px-6 py-10 md:py-14">
       <section className="editorial-card p-8 md:p-10">
         <p className="editorial-label mb-4">Patient Education</p>
         <div className="flex items-start gap-4">

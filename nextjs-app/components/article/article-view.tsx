@@ -17,7 +17,7 @@ export function ArticleView({ article }: { article: ArticleDocument }) {
   const { frontmatter, abstract, sections, references } = article
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-10 md:py-14">
+    <main className="mx-auto max-w-6xl px-6 py-10 md:py-14">
       <Link
         href="/articles"
         className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--nejm-burgundy)] hover:text-[var(--nejm-burgundy-dark)]"
