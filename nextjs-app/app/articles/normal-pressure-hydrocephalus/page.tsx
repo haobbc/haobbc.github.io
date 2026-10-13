@@ -59,7 +59,7 @@ export default function NormalPressureHydrocephalusArticle() {
             ；發生在蜘蛛網膜下腔出血、腦膜炎或頭部外傷之後的，稱為續發性。本文討論的是原發性。
           </P>
           <P>
-            這是高齡者的疾病，且隨年齡增加。瑞典哥德堡的族群研究以電腦斷層與臨床評估篩檢 70 歲以上居民，可能（probable）常壓性水腦症的盛行率在
+            這是高齡者的疾病，且隨年齡增加。瑞典哥德堡的族群研究以電腦斷層與臨床評估篩檢 70 歲以上居民，「很可能」（probable）常壓性水腦症的盛行率在
             70–79 歲約 <Strong>0.2%</Strong>，80 歲以上約 <Strong>5.9%</Strong>
             。許多患者沒有被診斷，症狀被歸因於年紀大、跌倒或失智。
           </P>
@@ -133,8 +133,8 @@ export default function NormalPressureHydrocephalusArticle() {
             </table>
           </TableWrap>
           <P>
-            影像上，腦室相對於顱內寬度的比例（<Strong>Evans 指數</Strong>）超過約 0.3
-            代表腦室擴大。日本指引特別重視
+            影像上，兩側側腦室前角最大寬度除以同一切面顱內最大寬度，稱為
+            <Strong>Evans 指數</Strong>，超過 0.3 代表腦室擴大。日本指引特別重視
             <Strong>DESH（disproportionately enlarged subarachnoid-space hydrocephalus）</Strong>
             ：腦室與大腦外側裂擴大，但頭頂高處的腦溝反而變窄、擠在一起。這個型態有助於和單純腦萎縮區分。
           </P>
@@ -207,10 +207,10 @@ export default function NormalPressureHydrocephalusArticle() {
             過去分流手術的效果主要來自未設對照組的研究，一直有人質疑改善是否來自安慰作用。2025
             年《新英格蘭醫學期刊》發表的 <Strong>PENS 試驗</Strong>
             ，讓 99 位放液後步態改善的患者都植入可調式分流閥，再隨機分為「正常開啟」或「調到極高壓、幾乎不引流」，患者與評估者都不知道分組。三個月時，開啟組的步行速度平均增加約
-            <Strong>每秒 0.23 公尺</Strong>，對照組只增加約每秒 0.03 公尺。這是第一次在雙盲條件下證實分流手術能改善步態。
+            <Strong>每秒 0.23 公尺</Strong>，對照組只增加約每秒 0.03 公尺。這是第一個大型雙盲、安慰對照試驗證實分流手術能改善步態。
           </P>
           <P>
-            同一試驗中，認知與膀胱症狀的分數兩組沒有明顯差異；開啟組的硬腦膜下或腦內出血也比較多。統合分析同樣顯示，術後改善最常見的是
+            同一試驗中，認知與膀胱症狀的分數兩組沒有明顯差異；開啟組的硬腦膜下出血也比較多。統合分析同樣顯示，術後改善最常見的是
             <Strong>步態（約 72%）</Strong>，認知（約 55%）與排尿（約 54%）較少。
           </P>
         </Section>
@@ -241,14 +241,14 @@ export default function NormalPressureHydrocephalusArticle() {
             例）。
           </P>
           <Note>
-            內視鏡第三腦室造口術（endoscopic third ventriculostomy）對阻塞性水腦症有效，但日本指引認為它對常壓性水腦症的效果不足，一般不作為標準治療。閥門與附加裝置的健保給付方式，依品項與當時規定而不同，需由神經外科門診當面說明。
+            內視鏡第三腦室造口術（endoscopic third ventriculostomy）主要用於阻塞性水腦症；用於常壓性水腦症的證據很有限，一般不作為標準治療。閥門與附加裝置的健保給付方式，依品項與當時規定而不同，需由神經外科門診當面說明。
           </Note>
 
           <p className="mt-6 font-display text-base text-[var(--nejm-charcoal)]">
             不要拖太久
           </p>
           <P>
-            瑞典研究比較等待手術超過六個月與三個月內手術的患者：等待期間步態、平衡與日常功能明顯退步，手術後雖然同樣進步，最後的整體狀態仍比及早手術者差。常壓性水腦症是會進展的疾病，已確定適合手術者，不宜因為「年紀大了」而一再延後。不過年齡本身不是禁忌，關鍵在於整體健康狀況與術前評估結果。
+            瑞典研究比較等待手術超過六個月與三個月內手術的患者：等待期間步態、平衡與失能程度明顯退步，手術後雖然同樣進步，最後的整體狀態仍比及早手術者差。常壓性水腦症是會進展的疾病，已確定適合手術者，不宜因為「年紀大了」而一再延後。不過年齡本身不是禁忌，關鍵在於整體健康狀況與術前評估結果。
           </P>
         </Section>
 
@@ -297,7 +297,8 @@ export default function NormalPressureHydrocephalusArticle() {
           <ol className="mt-4 list-decimal space-y-3 pl-6 font-serif text-[14px] leading-7 text-[var(--nejm-text)]">
             <li>
               Nakajima M, et al. Guidelines for management of idiopathic normal pressure
-              hydrocephalus (third edition). <em>Neurol Med Chir (Tokyo)</em>. 2021;61(2):63–97.{" "}
+              hydrocephalus (third edition): endorsed by the Japanese Society of Normal Pressure
+              Hydrocephalus. <em>Neurol Med Chir (Tokyo)</em>. 2021;61(2):63–97.{" "}
               <RefLink href="https://doi.org/10.2176/nmc.st.2020-0292">
                 doi:10.2176/nmc.st.2020-0292
               </RefLink>
@@ -334,8 +335,8 @@ export default function NormalPressureHydrocephalusArticle() {
               </RefLink>
             </li>
             <li>
-              Luciano MG, et al. Placebo-controlled effectiveness of idiopathic normal pressure
-              hydrocephalus shunting. <em>N Engl J Med</em>. 2025;393(22):2198–2209.{" "}
+              Luciano MG, et al. A randomized trial of shunting for idiopathic normal-pressure
+              hydrocephalus. <em>N Engl J Med</em>. 2025;393(22):2198–2209.{" "}
               <RefLink href="https://doi.org/10.1056/NEJMoa2503109">
                 doi:10.1056/NEJMoa2503109
               </RefLink>
@@ -349,8 +350,8 @@ export default function NormalPressureHydrocephalusArticle() {
               </RefLink>
             </li>
             <li>
-              Salih A, et al. Gait, cognition and urinary outcomes after shunt surgery in
-              idiopathic normal pressure hydrocephalus: a systematic review and meta-analysis.{" "}
+              Salih A, et al. The effectiveness of various CSF diversion surgeries in idiopathic
+              normal pressure hydrocephalus: a systematic review and meta-analysis.{" "}
               <em>eClinicalMedicine</em>. 2024;77:102891.{" "}
               <RefLink href="https://doi.org/10.1016/j.eclinm.2024.102891">
                 doi:10.1016/j.eclinm.2024.102891
