@@ -1,18 +1,21 @@
 ---
 name: weekly-neurosurgery-article
-description: 每週為 haobbc.github.io 新增一篇神經外科衛教文章。隨機選題、以指引與 SCI 論文做疾病別研究並補充台灣健保給付現況，依既有文章的文筆與版型寫成一頁，逐條查核後建立 reference/ 出處索引，最後開 PR 等待審核。
+description: 每週為 haobbc.github.io 新增一篇神經外科衛教文章。隨機選題、以指引與 SCI 論文做疾病別研究並補充台灣健保給付現況，依既有文章的文筆寫成 doc/articles/<slug>.md，逐條查核後建立 doc/references/ 出處索引，最後開 PR 等待審核。網頁由固定 pipeline 產生，本 skill 不碰前端程式碼。
 ---
 
 # 每週神經外科衛教文章
 
 每次執行只產出一篇文章、一個 PR。絕不直接推上 `main`，也不自行 merge。
 
-查核方法改寫自 `haobbc/tbi-presentation` 的 `medical-lecture-slides` skill（內容規則、逐條查核、`reference/` 出處索引）。
+本 skill 只負責內容：寫 `doc/articles/<slug>.md` 與 `doc/references/<slug>.md`。網頁版型由 `nextjs-app/components/article/article-view.tsx` 統一產生，**不要修改 `nextjs-app/` 內任何檔案**。需要新語法或改版型時，另開 PR 處理。
+
+查核方法改寫自 `haobbc/tbi-presentation` 的 `medical-lecture-slides` skill（內容規則、逐條查核、出處索引）。
 
 ## 0. 準備
 
-1. 讀根目錄 `CLAUDE.md` 與 `nextjs-app/CLAUDE.md`。
-2. 讀 `nextjs-app/lib/articles.ts`，列出已發表的主題。
+1. 讀根目錄 `CLAUDE.md`、`doc/README.md` 與 `doc/articles/README.md`（Markdown 語法）。
+2. 列出 `doc/articles/*.md` 的 frontmatter（title、category、date），作為已發表的主題。
+   同時看 `doc/references/` 是否已有相關主題的索引可沿用。
 3. 列出分支以 `article/` 開頭的 open PR，這些主題視為已寫過。雲端 session 不能用 `gh pr list`（GraphQL 被擋），改用 REST：
 
    ```bash
@@ -21,7 +24,7 @@ description: 每週為 haobbc.github.io 新增一篇神經外科衛教文章。�
    ```
 
 4. 若這類 open PR 已有 3 個以上，本次不寫新文章，回報「待審文章已累積」後結束。
-5. 完整讀最新一篇 `nextjs-app/app/articles/<slug>/page.tsx`，作為文筆與版型的範本。
+5. 完整讀最新一篇 `doc/articles/<slug>.md`，作為文筆與結構的範本。
 
 ## 1. 選題
 
@@ -65,35 +68,45 @@ EOF
 
 檔案：
 
-- 新增 `nextjs-app/app/articles/<slug>/page.tsx`，slug 用英文小寫加連字號。
-- 在 `nextjs-app/lib/articles.ts` 的 `ARTICLES` 新增一筆。`date` 用 `TZ=Asia/Taipei date +%F`，`category` 沿用「中文 English」格式。
-- 從最新一篇文章複製骨架與檔尾的 helper（`Section`、`P`、`Strong`、`Definition`、`TableWrap`、`Th`、`Td`、`Note`、`RefLink`），不新增依賴、不改 `globals.css`。
+- 新增 `doc/articles/<slug>.md`，slug 用英文小寫加連字號。文章列表與頁面會在 build 時自動產生，不需要改其他檔案。
+- frontmatter：
+  - `title`：疾病中文名（英文全名）。
+  - `subtitle`：「神經外科的角色與臨床管理」。
+  - `category`：沿用「中文 English」格式。
+  - `date`：用 `TZ=Asia/Taipei date +%F` 取得。
+  - `summary`：列表用的一段摘要。
+  - `disclaimer`：免責聲明固定文字之後追加的一句。
+- 只用 `doc/articles/README.md` 列出的語法。不支援的語法會讓 build 失敗。
 
 章節順序：
 
-1. 標題、副標「神經外科的角色與臨床管理」、作者與日期
-2. 摘要 · Abstract（一段，150 至 200 字）
+1. frontmatter（標題、副標、作者與日期由版型產生）
+2. `:::abstract` 摘要（一段，150 至 200 字）
 3. 一、為什麼神經外科會參與？（含流行病學數字）
 4. 二、臨床表現與診斷（含需要提高警覺的表現）
 5. 治療章節 2 至 3 節（藥物、手術或介入；至少一個表格含「台灣健保／臨床注意事項」欄）
 6. 日常生活與該回診的時機
 7. 結語
-8. 免責聲明（沿用既有文字，依主題微調最後一句）
-9. 參考文獻，附 DOI。篇數不設上下限，以正確引用為最高原則：文中每一項敘述所依據的來源都要列出，沒有實際支持文中敘述的文獻不列。
+8. 免責聲明：固定文字由版型產生，主題相關的最後一句寫在 frontmatter 的 `disclaimer`
+9. `## 參考文獻`，編號清單，附 `doi:`（自動成為連結）。篇數不設上下限，以正確引用為最高原則：文中每一項敘述所依據的來源都要列出，沒有實際支持文中敘述的文獻不列。
 
 文筆：
 
 - 台灣繁體中文與台灣醫學用語。疾病、術式首次出現時附英文全名；藥名用英文小寫。
-- 句子短而直接，先講結論再講依據。關鍵數字與關鍵藥名、術式用 `<Strong>`。
-- 比較性內容用表格，補充與限制用 `<Note>`。
+- 句子短而直接，先講結論再講依據。關鍵數字與關鍵藥名、術式用 `**粗體**`。
+- 比較性內容用表格，補充與限制用 `> ` Note。
 - 劑量只寫常用範圍，並註明實際劑量由醫師決定。
 - 不寫個別化建議、不用行銷語氣、不保證療效；風險與好處並列。
-- 文內不加引註編號，維持文末參考文獻的寫法；數字與來源的對應記在 `reference/<slug>.md`。
-- 正文篇幅約 380 至 480 行 TSX，參考文獻不計入。不得為了控制篇幅而刪減應列出的參考文獻。
+- 文內不加引註編號，維持文末參考文獻的寫法；數字與來源的對應記在 `doc/references/<slug>.md`。
+- 正文篇幅約 3,200 至 4,500 字，參考文獻不計入。不得為了控制篇幅而刪減應列出的參考文獻。字數的計算方式是不含空白與 Markdown 符號：
+
+  ```bash
+  python3 -c "import re,sys;s=open(sys.argv[1],encoding='utf8').read();b=s.split('---',2)[2].split('## 參考文獻')[0];print(len(re.sub(r'[\s*|#:>\-]','',b)))" doc/articles/<slug>.md
+  ```
 
 ## 4. 逐條查核（寫完後、開 PR 前）
 
-1. 從 `page.tsx` 抽出所有可查核的敘述：數字、定義、門檻值、劑量、分型、指引建議、健保條文，以及每條參考文獻的作者、年份、卷頁與 DOI。
+1. 從 `doc/articles/<slug>.md` 抽出所有可查核的敘述：數字、定義、門檻值、劑量、分型、指引建議、健保條文，以及每條參考文獻的作者、年份、卷頁與 DOI。
 2. 交給未參與寫作的 subagent 逐條重查，可依章節分段平行進行，並告知要核對的具體數字與來源。無法啟動 subagent 時，自己從原始來源重查一遍，不沿用寫作時的筆記。
 3. 每條輸出一列：
 
@@ -116,9 +129,12 @@ EOF
    - ❓ 未能核對：數字不得留在文章，刪除或改為不含數字的敘述。
 7. 記下查核時無法讀取的網站（付費牆、人機驗證、限流）。
 
-## 5. reference/ 出處索引
+## 5. doc/references/ 出處索引
 
-每篇文章一個檔案 `reference/<slug>.md`，放在 repo 根目錄，不在 `nextjs-app/` 內，不會部署到網站。第一次執行時另建 `reference/README.md`，說明檔案清單、欄位格式與狀態圖例。
+每個主題一個檔案 `doc/references/<slug>.md`，不會部署到網站。格式見 `doc/references/README.md`，新增檔案時一併更新其中的檔案清單。
+
+- 索引依主題共用。若同一主題已有索引（例如先前做過同主題的簡報），在原檔追加條目，並在檔頭的「使用於」加上本文，不另開新檔。
+- 檔頭列出「使用於」：`doc/articles/<slug>.md`（日期）。
 
 本 repo 是公開的。索引只記錄引用資訊與文章實際用到的數值，不貼論文內文或大段原文，也不把 PDF 放進 repo。
 
@@ -127,8 +143,8 @@ EOF
 ```
 ### [ID] 短名
 - 完整引用：作者. 篇名. 期刊 年;卷:頁. DOI／URL
-- 用於：第 N 節
-- 引用內容：文章實際用到的數字或敘述
+- 用於：<產出> 第 N 節
+- 引用內容：實際用到的數字或敘述
 - 查核：✅ ／ 🔶 ／ ❓，加上查核依據（頁碼、表格編號或查證日期）
 ```
 
@@ -145,7 +161,10 @@ npm run lint
 npm run build:github
 ```
 
-兩者都通過才能開 PR。失敗就修到通過；修不好則不開 PR，回報錯誤。
+- `build:github` 會解析所有 `doc/articles/*.md`。語法錯誤會以「檔名:行號: 原因」的格式讓 build 失敗，修正 md 即可，不要改解析器來遷就。
+- 確認輸出中出現 `/articles/<slug>`。
+- lint 與 build 都通過才能開 PR。失敗就修到通過；修不好則不開 PR，回報錯誤。
+- Windows 的 cmd 不支援 `VAR=x` 語法，請在 bash 中執行 `NEXT_PUBLIC_DEPLOY_TARGET=github npx next build --turbopack`。
 
 ## 7. 開 PR
 
@@ -176,7 +195,7 @@ npm run build:github
 
 1. 用 `pdftotext` 轉成文字。PDF 只在工作目錄使用，不 commit。
 2. 核對受影響段落的每個數字，修正不符之處，包含引文錯置。
-3. 把 `reference/<slug>.md` 的對應條目改為 ✅。
+3. 把 `doc/references/<slug>.md` 的對應條目改為 ✅。
 4. 在查核紀錄的無法查證清單中，將該項加上刪除線並註明日期。
 5. 回報哪些相符、哪些改了。
 
