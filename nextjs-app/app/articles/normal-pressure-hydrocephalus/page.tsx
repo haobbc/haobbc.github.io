@@ -260,7 +260,7 @@ export default function NormalPressureHydrocephalusArticle() {
               術前可以請家屬用手機錄下走路的樣子，並記錄步行固定距離所需的時間與步數；放液測試與術後追蹤時，可以拿來比較。
             </li>
             <li>居家移除地上的電線與小地毯，浴室加裝扶手，降低跌倒風險。</li>
-            <li>術後持續復健與步態訓練，比只靠手術更能維持行走能力。</li>
+            <li>術後可配合復健與步態訓練，並持續注意居家防跌。</li>
             <li>
               植入可調式閥門者，接受磁振造影檢查前告知醫療人員；部分閥門的設定會受強磁場影響，檢查後需要確認或重新設定。
             </li>
@@ -373,6 +373,21 @@ export default function NormalPressureHydrocephalusArticle() {
               <em>J Neurol Neurosurg Psychiatry</em>. 2014;85(7):806–810.{" "}
               <RefLink href="https://doi.org/10.1136/jnnp-2013-306117">
                 doi:10.1136/jnnp-2013-306117
+              </RefLink>
+            </li>
+            <li>
+              Tudor KI, et al. Endoscopic third ventriculostomy (ETV) for idiopathic normal pressure
+              hydrocephalus (iNPH). <em>Cochrane Database Syst Rev</em>. 2015;(7):CD010033.{" "}
+              <RefLink href="https://doi.org/10.1002/14651858.CD010033.pub2">
+                doi:10.1002/14651858.CD010033.pub2
+              </RefLink>
+            </li>
+            <li>
+              Ucisik FE, et al. Magnetic resonance imaging-related programmable ventriculoperitoneal
+              shunt valve setting changes occur often. <em>Acta Neurochir (Wien)</em>.
+              2022;164(2):495–498.{" "}
+              <RefLink href="https://doi.org/10.1007/s00701-021-05060-2">
+                doi:10.1007/s00701-021-05060-2
               </RefLink>
             </li>
           </ol>

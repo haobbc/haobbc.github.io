@@ -110,21 +110,28 @@
   - 文章不寫數字。
 - 查核：🔶 摘要（JNNP 全文需付費）
 
-## 未列入文末參考文獻的支持來源
+### [Tudor2015] Cochrane：ETV 用於 iNPH
+- 完整引用：Tudor KI, Tudor M, McCleery J, Car J. Endoscopic third ventriculostomy (ETV) for idiopathic normal pressure hydrocephalus (iNPH). Cochrane Database Syst Rev 2015;(7):CD010033. doi:10.1002/14651858.CD010033.pub2（PMC9187909）
+- 用於：第四節 Note
+- 引用內容：支持「ETV 用於 iNPH 證據很有限」：只有 1 個 RCT（n=42），證據品質極低
+- 查核：✅ 全文
 
-- Tudor KI, et al. Endoscopic third ventriculostomy (ETV) for idiopathic normal pressure hydrocephalus (iNPH). Cochrane Database Syst Rev 2015;(7):CD010033. doi:10.1002/14651858.CD010033.pub2（PMC9187909）
-  - 支持「ETV 用於 iNPH 證據很有限」：只有 1 個 RCT（n=42），證據品質極低。
-  - 查核：✅ 全文
+### [Ucisik2022] MRI 與可調式閥門設定改變
+- 完整引用：Ucisik FE, Simonetta AB, Bonfante-Mejia EM. Magnetic resonance imaging-related programmable ventriculoperitoneal shunt valve setting changes occur often. Acta Neurochir (Wien) 2022;164(2):495–498. doi:10.1007/s00701-021-05060-2
+- 用於：第五節
+- 引用內容：支持「部分閥門設定會受 MRI 影響，檢查後需確認」：沒有鎖定機制的閥門常發生非預期的設定改變。文章不寫數字。
+- 查核：🔶 摘要；Crossref 已核對書目
+
+## 未列入文末參考文獻的旁證
+
+這兩篇只用來佐證，文章的定義與數字都取自 JSNPH2021，因此不列入文末。
+
 - Relkin N, et al. Diagnosing idiopathic normal-pressure hydrocephalus. Neurosurgery 2005;57(3 Suppl):S2-4–S2-16. doi:10.1227/01.NEU.0000168185.29659.C5
-  - 國際指引，作為 Evans 指數門檻的旁證；定義以 JSNPH2021 為準。
+  - 國際指引，作為 Evans 指數門檻的旁證。
   - 查核：🔶 摘要
 - Marmarou A, et al. Neurosurgery 2005;57(3 Suppl):S17–28. doi:10.1227/01.neu.0000168184.01002.60
   - Tap test 放液 40–50 mL、敏感度 26–61%，不能作為排除檢查。
-  - 查核：🔶 摘要。文章引用的敏感度數字取自 JSNPH2021。
-- Ucisik FE, Simonetta AB, Bonfante-Mejia EM. Magnetic resonance imaging-related programmable ventriculoperitoneal shunt valve setting changes occur often. Acta Neurochir (Wien) 2022;164(2):495–498. doi:10.1007/s00701-021-05060-2
-  - 支持第五節「部分閥門設定會受 MRI 影響，檢查後需確認」：沒有鎖定機制的閥門常發生非預期的設定改變。
-  - 文章不寫數字。
-  - 查核：🔶 摘要；Crossref 已核對書目
+  - 查核：🔶 摘要
 
 ## 台灣健保
 
@@ -185,7 +192,7 @@
 
 | 項目 | 數量 |
 |---|---|
-| 文獻來源（含支持來源） | 14 |
+| 文獻來源 | 14（文末參考文獻 12，旁證 2） |
 | ✅ | 8：JSNPH2021、AAN2015、Jaraj2014、Hashimoto2010、Salih2024、Lemcke2013、Tudor2015，以及 Luciano2025 的主要數字 |
 | 🔶 | 7：Kazui2015、Toma2013、Andren2014、Relkin2005、Marmarou2005、Ucisik2022，以及 Luciano2025 的出血分項 |
 | 健保條目 | 4 條，內容全為 ✅；其中 1 條的公告文號為 🔶 |
@@ -208,6 +215,8 @@
 | SVASONA：加上重力式裝置對標準可調閥 | 內建重力單元的可調閥對一般可調閥（各約 70 人） | Lemcke2013 方法 |
 | ETV：證據很有限 | 補上「日本指引引用的研究顯示改善率低於分流手術」 | JSNPH CQ-10 說明文字 |
 | Andrén：步態、平衡與失能退步 | 步態、平衡、認知與失能退步 | Andren2014 摘要結論 |
+| 參考文獻 10 篇 | 12 篇：新增 Tudor2015（ETV）與 Ucisik2022（MRI 與閥門） | SKILL 改為參考文獻不設上限，文中敘述的依據都要列出 |
+| 術後持續復健，比只靠手術更能維持行走能力 | 術後可配合復健與步態訓練，並持續注意居家防跌 | 比較性敘述找不到出處 |
 | 健保：部分品項可能屬自付差額 | 111.11.1 起不具抗虹吸功能的可調閥全額給付；具抗虹吸或重力閥門者屬自付差額；I203-11 列有常壓性水腦症 | 健保署 cp-7391、特材給付規定 |
 
 ### 無法查證（未寫入文章）
