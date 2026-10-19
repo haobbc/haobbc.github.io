@@ -122,7 +122,7 @@ EOF
    例：https://api.crossref.org/works/10.1056/NEJMra1914484
    ```
 
-   雲端 session 的 shell 連不到這個網址（`curl` 會得到 403），必須用網頁讀取工具。Crossref 只能核對書目資料，不能核對論文內的數字。
+   雲端 session 的 shell 連不到這個網址（`curl` 會得到 403），必須用網頁讀取工具。Crossref 只能核對書目資料，不能核對論文內的數字。連續查詢會被 Crossref 以 429 限流：每筆間隔約 100 秒，或改用 URL 編碼的 DOI（`10.1016%2F...`）。
 6. 為每條來源標上查核狀態：
    - ✅ 全文核對：已讀到全文或官方條文原文。
    - 🔶 摘要或二手來源核對：數字一致，但未見原表。可留在文章，須列入 PR 的「請醫師確認」清單。
@@ -165,6 +165,7 @@ npm run build:github
 - 確認輸出中出現 `/articles/<slug>`。
 - lint 與 build 都通過才能開 PR。失敗就修到通過；修不好則不開 PR，回報錯誤。
 - Windows 的 cmd 不支援 `VAR=x` 語法，請在 bash 中執行 `NEXT_PUBLIC_DEPLOY_TARGET=github npx next build --turbopack`。
+- 雲端 session 的網路可能擋掉 `fonts.googleapis.com`，`build:github` 會在 `next/font` 下載字型時失敗，與文章無關。此時在 repo 之外寫一個 `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` 的 mock 檔（把 layout 用到的三個 Google Fonts CSS 網址對應到假的 `@font-face`），改用 webpack 建置：`NEXT_FONT_GOOGLE_MOCKED_RESPONSES=<mock.js> NEXT_PUBLIC_DEPLOY_TARGET=github npx next build`（Turbopack 不支援這個 mock）。只要輸出中出現 `/articles/<slug>`，就代表 Markdown 解析通過；在 PR 說明中寫明是這樣建置的，正式的 `build:github` 由 GitHub Actions 驗證。不要為了建置修改 `nextjs-app/`。
 
 ## 7. 開 PR
 
