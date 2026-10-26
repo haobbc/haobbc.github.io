@@ -13,6 +13,7 @@
 | `normal-pressure-hydrocephalus.md` | 常壓性水腦症 | `doc/articles/normal-pressure-hydrocephalus.md` |
 | `chronic-subdural-hematoma.md` | 慢性硬腦膜下血腫 | `doc/articles/chronic-subdural-hematoma.md` |
 | `hemifacial-spasm.md` | 半側顏面痙攣 | `doc/articles/hemifacial-spasm.md` |
+| `vestibular-schwannoma.md` | 聽神經瘤（前庭神經鞘瘤） | `doc/articles/vestibular-schwannoma.md` |
 
 ## 檔頭格式
 

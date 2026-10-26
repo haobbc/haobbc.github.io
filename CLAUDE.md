@@ -80,6 +80,8 @@ GitHub Pages 使用靜態匯出：
 - Route：`nextjs-app/app/`
 - Navigation：`nextjs-app/components/navigation.tsx`
 
+撰寫或新增衛教文章時，一律使用 `.claude/skills/weekly-neurosurgery-article/SKILL.md` 的流程。
+
 ## 驗證
 
 ```bash
