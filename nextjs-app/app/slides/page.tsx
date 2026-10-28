@@ -1,4 +1,5 @@
 import { SLIDES } from "@/lib/slides"
+import { withBasePath } from "@/lib/base-path"
 import { Presentation, Maximize2 } from "lucide-react"
 
 export const metadata = {
@@ -38,7 +39,7 @@ export default function SlidesPage() {
               <li key={slide.slug} className="border-l-4 border-[var(--nejm-burgundy)] bg-white/45 p-5">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
-                    <a href={slide.href} className="group inline-flex items-baseline gap-3">
+                    <a href={withBasePath(slide.href)} className="group inline-flex items-baseline gap-3">
                       <span className="font-display text-2xl text-[var(--nejm-ink)] group-hover:text-[var(--nejm-burgundy)]">
                         {slide.title}
                       </span>
@@ -50,7 +51,7 @@ export default function SlidesPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <a
-                      href={slide.href}
+                      href={withBasePath(slide.href)}
                       className="inline-flex items-center gap-1 border border-[var(--nejm-burgundy)] px-3 py-1.5 text-xs font-semibold text-[var(--nejm-burgundy)] transition-colors hover:bg-[var(--nejm-burgundy)] hover:text-[var(--nejm-paper)]"
                     >
                       <Maximize2 className="h-3.5 w-3.5" />

@@ -1,5 +1,6 @@
 import { getLocalSlides, getSlideBySlug } from "@/lib/slides"
 import { notFound } from "next/navigation"
+import { withBasePath } from "@/lib/base-path"
 
 interface SlidePageProps {
   params: Promise<{
@@ -22,10 +23,10 @@ export default async function SlideRedirectPage({ params }: SlidePageProps) {
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-16 text-center">
-      <meta httpEquiv="refresh" content={`0;url=${slide.href}`} />
+      <meta httpEquiv="refresh" content={`0;url=${withBasePath(slide.href)}`} />
       <p className="text-[var(--nejm-muted)]">
         正在開啟簡報…若沒有自動跳轉，請
-        <a href={slide.href} className="mx-1 text-[var(--nejm-burgundy)] underline">
+        <a href={withBasePath(slide.href)} className="mx-1 text-[var(--nejm-burgundy)] underline">
           點這裡
         </a>
         。
