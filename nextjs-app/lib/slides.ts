@@ -18,6 +18,14 @@ export interface Slide {
 
 export const SLIDES: Slide[] = [
   {
+    // 演講日 2026-10-31，TSNO 秋季國際研討會（brain-tumor-tsno-2026 presentation/release/brain-tumor-tsno-2026.html）
+    slug: "brain-tumor-tsno-2026",
+    title: "Surgically Managed Brain Tumors · TSNO 2026",
+    date: "2026-10-31",
+    description: "台灣神經腫瘤學學會秋季國際研討會 · 林口長庚五年手術經驗",
+    href: "/slide-content/brain-tumor-tsno-2026/index.html",
+  },
+  {
     // 2026 v2 release：演講日 2026-10-29（tbi-presentation presentation-v2/release/tbi-lecture.html）
     slug: "traumatic-brain-injury",
     title: "頭部外傷及腦血管外傷處置",
