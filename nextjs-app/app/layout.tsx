@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
+import { withBasePath } from "@/lib/base-path";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,15 +27,15 @@ export const metadata: Metadata = {
   description: "神經外科醫師 | 臨床研究員",
   icons: {
     icon: [
-      { url: '/favicon.ico' },
-      { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
+      { url: withBasePath('/favicon.ico') },
+      { url: withBasePath('/icon-16x16.png'), sizes: '16x16', type: 'image/png' },
+      { url: withBasePath('/icon-32x32.png'), sizes: '32x32', type: 'image/png' },
+      { url: withBasePath('/icon-192x192.png'), sizes: '192x192', type: 'image/png' },
+      { url: withBasePath('/icon-512x512.png'), sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/apple-icon.png',
+    apple: withBasePath('/apple-icon.png'),
   },
-  manifest: '/site.webmanifest',
+  manifest: withBasePath('/site.webmanifest'),
 };
 
 export default function RootLayout({

@@ -57,6 +57,8 @@ npm run build:github
 - Artifact：`nextjs-app/out`
 - 觸發條件：push 到 `main` 且修改 `nextjs-app/**` 或 workflow
 
+鏡像站（子路徑部署，例如 `https://blog.klcgmh.app/haobbc`）建置時多帶 `NEXT_PUBLIC_BASE_PATH=/haobbc`，所有站內連結與資產會自動加上前綴；GitHub Pages 不設定即為根路徑。
+
 ## 技術棧
 
 - Next.js 15
