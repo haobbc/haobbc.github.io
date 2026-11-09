@@ -15,6 +15,7 @@
 | `hemifacial-spasm.md` | 半側顏面痙攣 | `doc/articles/hemifacial-spasm.md` |
 | `vestibular-schwannoma.md` | 聽神經瘤（前庭神經鞘瘤） | `doc/articles/vestibular-schwannoma.md` |
 | `brain-abscess.md` | 腦膿瘍 | `doc/articles/brain-abscess.md` |
+| `degenerative-lumbar-spondylolisthesis.md` | 退化性腰椎滑脫症 | `doc/articles/degenerative-lumbar-spondylolisthesis.md` |
 
 ## 檔頭格式
 
