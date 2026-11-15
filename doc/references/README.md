@@ -16,6 +16,7 @@
 | `vestibular-schwannoma.md` | 聽神經瘤（前庭神經鞘瘤） | `doc/articles/vestibular-schwannoma.md` |
 | `brain-abscess.md` | 腦膿瘍 | `doc/articles/brain-abscess.md` |
 | `essential-tremor.md` | 原發性顫抖症 | `doc/articles/essential-tremor.md` |
+| `degenerative-lumbar-spondylolisthesis.md` | 退化性腰椎滑脫症 | `doc/articles/degenerative-lumbar-spondylolisthesis.md` |
 
 ## 檔頭格式
 
