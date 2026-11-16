@@ -17,6 +17,7 @@
 | `brain-abscess.md` | 腦膿瘍 | `doc/articles/brain-abscess.md` |
 | `essential-tremor.md` | 原發性顫抖症 | `doc/articles/essential-tremor.md` |
 | `degenerative-lumbar-spondylolisthesis.md` | 退化性腰椎滑脫症 | `doc/articles/degenerative-lumbar-spondylolisthesis.md` |
+| `meningioma.md` | 腦膜瘤 | `doc/articles/meningioma.md` |
 
 ## 檔頭格式
 
