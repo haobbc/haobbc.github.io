@@ -7,7 +7,7 @@
 - **首頁**：個人簡介、現職、學經歷、認證、代表論文
 - **教學簡報**：HTML slides，來源為 `nextjs-app/public/slide-content/<slug>/index.html`
 - **衛教文章**：來源為 `doc/articles/<slug>.md`（受限 Markdown），build 時以固定版型轉成頁面
-- **快速連結**：臨床、學術、教學常用資源入口（規劃中）
+- **快速連結**：臨床、學術、教學常用資源入口（`nextjs-app/app/links/`）
 
 > 過去的站內筆記、MD/BibTeX/CSL 快速論文格式渲染器已移除。衛教文章另以零依賴的受限 Markdown 解析器處理，不使用 remark／rehype／MDX。
 
