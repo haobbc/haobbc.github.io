@@ -13,7 +13,7 @@
 1. **首頁**（`app/page.tsx`）— 個人簡介、學經歷、論文發表
 2. **教學簡報清單**（`app/slides/`）— 列出並嵌入 `public/slide-content/<slug>/index.html` 的靜態簡報
 3. **衛教文章**（`app/articles/`）— 內容在 repo 根目錄 `doc/articles/<slug>.md`，`app/articles/[slug]/page.tsx` 以固定版型（`components/article/article-view.tsx`）呈現
-4. **常用連結**（規劃中）— 對外資源快速入口
+4. **常用連結**（`app/links/page.tsx`）— 對外資源快速入口。項目寫在該頁的 `linkGroups`，只連官方或本人維護的頁面，不放檔案、不連帶版本號的檔案網址。
 
 過去的 `app/notes`、`app/md-renderer` 已被移除；不支援 BibTeX／CSL 渲染，也不引入 remark／rehype／MDX／citation-js 等依賴。
 
@@ -53,6 +53,8 @@ nextjs-app/
 │   ├── layout.tsx           # 根 Layout（含 Navigation）
 │   ├── page.tsx             # 首頁
 │   ├── globals.css          # 全域樣式
+│   ├── links/
+│   │   └── page.tsx         # 快速連結
 │   └── slides/
 │       ├── page.tsx         # 簡報清單
 │       └── [slug]/          # 動態簡報頁
@@ -83,6 +85,10 @@ nextjs-app/
 2. 放入 `index.html`（與相關靜態資源）
 3. `lib/slides.ts` 會自動掃描，從 `<title>` 取標題、依檔案修改時間排序
 4. `/slides` 列表與 `/slides/my-talk` 動態路由皆會自動出現
+
+## 加入常用連結
+
+編輯 `app/links/page.tsx` 的 `linkGroups`，在既有群組補項目，或新增一個群組。只放官方頁面（或本人維護的系統）網址，不要把安裝檔放進 repo，也不要連到帶版本號的檔案網址。
 
 ## 開發注意事項
 

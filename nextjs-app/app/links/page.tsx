@@ -2,7 +2,7 @@ import { Link as LinkIcon, ExternalLink, Lock } from "lucide-react"
 
 export const metadata = {
   title: "快速連結 | 傅冠豪 (Kuan-Hao Fu, MD)",
-  description: "常用資源與相關連結。",
+  description: "常用臨床、學術與教學資源，含 DICOM 檢視器的官方下載頁。",
 }
 
 type LinkItem = {
@@ -15,6 +15,7 @@ type LinkItem = {
 type LinkGroup = {
   title: string
   description: string
+  notice?: string
   items?: LinkItem[]
 }
 
@@ -28,6 +29,24 @@ const linkGroups: LinkGroup[] = [
         href: "https://surgery.klcgmh.app",
         note: "surgery.klcgmh.app",
         requiresAuth: true,
+      },
+    ],
+  },
+  {
+    title: "DICOM 檢視器",
+    description: "在一般電腦上開啟光碟或 USB 裡的 DICOM 影像。只連官方下載頁。",
+    notice:
+      "這些軟體不是醫療器材，僅供檢視與教學，不作正式判讀；病人影像不要留在公用電腦上。",
+    items: [
+      {
+        name: "MicroDicom（Windows，免安裝 zip）",
+        href: "https://www.microdicom.com/downloads.html",
+        note: "下載頁選「zip」版，解壓縮後直接執行，不需安裝。非商業用途免費。",
+      },
+      {
+        name: "Weasis（Windows／macOS／Linux）",
+        href: "https://weasis.org/en/getting-started/download-dicom-viewer/",
+        note: "開源檢視器，跨平台。一般下載是安裝檔。",
       },
     ],
   },
@@ -51,7 +70,7 @@ export default function LinksPage() {
           <div>
             <h1 className="font-display text-4xl text-[var(--nejm-ink)]">快速連結</h1>
             <p className="mt-4 max-w-2xl leading-8 text-[var(--nejm-muted)]">
-              內容整理中。此頁將作為公開網站的資源入口，保留精簡、可信、易維護的連結清單。
+              臨床、學術與教學常用資源的入口。只連官方或本人維護的頁面，之後會再補充。
             </p>
           </div>
         </div>
@@ -60,6 +79,11 @@ export default function LinksPage() {
             <div key={group.title} className="border-t-2 border-[var(--nejm-burgundy)] bg-white/45 p-5">
               <h2 className="font-display text-2xl text-[var(--nejm-ink)]">{group.title}</h2>
               <p className="mt-3 text-sm leading-6 text-[var(--nejm-muted)]">{group.description}</p>
+              {group.notice && (
+                <p className="mt-4 border border-[var(--nejm-burgundy)]/30 bg-[var(--nejm-burgundy-tint)] px-3 py-2.5 text-sm leading-6 text-[var(--nejm-charcoal)]">
+                  {group.notice}
+                </p>
+              )}
               {group.items && group.items.length > 0 && (
                 <ul className="mt-4 space-y-3">
                   {group.items.map((item) => (
