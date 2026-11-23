@@ -18,6 +18,7 @@
 | `essential-tremor.md` | 原發性顫抖症 | `doc/articles/essential-tremor.md` |
 | `degenerative-lumbar-spondylolisthesis.md` | 退化性腰椎滑脫症 | `doc/articles/degenerative-lumbar-spondylolisthesis.md` |
 | `meningioma.md` | 腦膜瘤 | `doc/articles/meningioma.md` |
+| `concussion.md` | 腦震盪 | `doc/articles/concussion.md` |
 
 ## 檔頭格式
 
